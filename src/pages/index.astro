@@ -29,10 +29,10 @@ import { site } from '../data/site';
         <span class="event-icon"><Icon name="roles" size={21} /></span>
         <div><span class="event-label">當成員選擇 Emoji</span><p>領取對應的身分組。</p></div>
       </div>
-      <div class="preview-command">
-        <div class="command-heading"><Icon name="music" size={17} /><span>想聽點音樂的時候</span><span class="small-tag">選用</span></div>
-        <code><span>/music play</span> <span class="command-argument">query:</span> 喜歡的歌曲</code>
-        <p>搜尋、加入佇列，讓音樂接著播放。</p>
+      <div class="preview-event">
+        <span class="event-icon"><Icon name="music" size={21} /></span>
+        <div><span class="event-label">想聽點音樂的時候</span><p>讓音樂接著播放。</p></div>
+        <span class="small-tag">選用</span>
       </div>
       <div class="preview-bottom"><span class="preview-dot" aria-hidden="true"></span>功能依伺服器設定提供</div>
     </aside>
@@ -46,7 +46,7 @@ import { site } from '../data/site';
   <section id="features" class="container section common-section" aria-labelledby="common-heading">
     <div class="section-heading">
       <div><p class="eyebrow">01 / EVERYDAY ESSENTIALS</p><h2 id="common-heading">從社群的日常開始。</h2></div>
-      <p>三項通用功能，照顧加入、互動與資訊分享。<br />由管理者完成設定後，就能在指定頻道使用。</p>
+      <p>從歡迎與角色領取，照顧社群的日常互動。<br />由管理者完成設定後，就能在指定頻道使用。</p>
     </div>
     <div class="common-features">
       {commonFeatures.map((feature, index) => (
@@ -72,15 +72,36 @@ import { site } from '../data/site';
       <div class="optional-grid">
         {optionalFeatures.map((feature) => (
           <article class={`optional-feature optional-${feature.id}`}>
-            <div class="optional-top"><Icon name={feature.icon} size={24} /><span class="category-label">選用功能</span></div>
-            <h3><a href={`/docs/features#${feature.docsAnchor}`}>{feature.name}<Icon name="external" size={20} /></a></h3>
+            <div class="optional-top"><Icon name={feature.icon} size={24} /><span class="category-label">{feature.categoryLabel ?? '選用功能'}</span></div>
+            <h3>
+              {feature.docsAnchor ? (
+                <a href={`/docs/features#${feature.docsAnchor}`}>{feature.name}<Icon name="external" size={20} /></a>
+              ) : feature.name}
+            </h3>
             <p class="optional-description">{feature.description}</p>
-            <p class="feature-detail">{feature.detail}</p>
+            {feature.detail && <p class="feature-detail">{feature.detail}</p>}
+            {feature.tools && (
+              <ul class="tool-list" aria-label={`${feature.name}功能與文件`}>
+                {feature.tools.map((tool) => {
+                  const Row = tool.docsHref ? 'a' : 'div';
+                  return (
+                    <li>
+                      <Row class="tool-row" href={tool.docsHref}>
+                        <Icon name={tool.icon} size={20} />
+                        <span class="tool-copy"><strong>{tool.name}</strong><span>{tool.description}</span></span>
+                        {tool.docsHref && <Icon name="external" size={18} />}
+                      </Row>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
             {feature.id === 'ai-chat' && <div class="inline-example"><span class="mono">/ai chat</span><span>從一個問題開始對話。</span></div>}
             {feature.id === 'tickets' && (
               <ol class="ticket-steps" aria-label="表單開單流程"><li>選擇按鈕</li><li>填寫表單</li><li>進入客服頻道</li></ol>
             )}
-            <ul class="feature-tags" aria-label={`${feature.name}重點`}>{feature.tags.map((tag) => <li>{tag}</li>)}</ul>
+            {feature.tags.length > 0 && <ul class="feature-tags" aria-label={`${feature.name}重點`}>{feature.tags.map((tag) => <li>{tag}</li>)}</ul>}
+            {feature.availabilityNote && <p class="small-note tool-availability">{feature.availabilityNote}</p>}
           </article>
         ))}
       </div>

@@ -1,12 +1,21 @@
 export interface Feature {
   id: string;
   /** Starlight's native Markdown heading slug, verified against the static build. */
-  docsAnchor: string;
+  docsAnchor?: string;
   name: string;
   description: string;
-  detail: string;
+  detail?: string;
   icon: 'welcome' | 'roles' | 'key' | 'chat' | 'music' | 'ticket' | 'chart';
   tags: string[];
+  categoryLabel?: string;
+  availabilityNote?: string;
+  tools?: {
+    name: string;
+    description: string;
+    icon: Feature['icon'];
+    /** Omit when no real document exists; the row then renders without a link. */
+    docsHref?: string;
+  }[];
 }
 
 export const commonFeatures: Feature[] = [
@@ -22,14 +31,9 @@ export const commonFeatures: Feature[] = [
     detail: '透過面板上的 Emoji 領取身分組，移除反應即可撤銷對應角色。',
     tags: ['Emoji 互動', '角色領取'],
   },
-  {
-    id: 'daily-password', docsAnchor: '三角洲每日密碼', name: '三角洲每日密碼', icon: 'key',
-    description: '每日遊戲資訊，送到熟悉的頻道。',
-    detail: '設定發送頻道後，於每日臺北時間 08:00 取得並發送地圖密碼。資料依外部來源提供。',
-    tags: ['每日排程', '頻道通知'],
-  },
 ];
 
+/** Homepage presentation groups; these do not change Bot command scopes. */
 export const optionalFeatures: Feature[] = [
   {
     id: 'ai-chat', docsAnchor: 'ai-聊天', name: 'AI 聊天', icon: 'chat',
@@ -50,9 +54,20 @@ export const optionalFeatures: Feature[] = [
     tags: ['表單開單', '客服角色'],
   },
   {
-    id: 'manufacture', docsAnchor: '三角洲生產推薦', name: '三角洲生產推薦', icon: 'chart',
-    description: '需要的生產資訊，集中查看。',
-    detail: '定時更新特勤局生產推薦，透過詳情卡片查看製造資訊與價格圖。資料依外部來源提供。',
-    tags: ['定時更新', '製造詳情', '價格圖'],
+    id: 'manufacture', name: '三角洲行動工具', icon: 'chart',
+    description: '每日遊戲資訊與特勤處製造推薦。',
+    categoryLabel: '遊戲工具',
+    availabilityNote: '每日密碼目前為通用功能；特勤處製造需另行啟用。',
+    tags: [],
+    tools: [
+      {
+        name: '每日密碼', description: '快速查看每日密碼', icon: 'key',
+        docsHref: '/docs/features#三角洲每日密碼',
+      },
+      {
+        name: '特勤處製造', description: '推薦物品與預估收益', icon: 'chart',
+        docsHref: '/docs/features#三角洲生產推薦',
+      },
+    ],
   },
 ];
