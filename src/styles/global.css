@@ -1,0 +1,45 @@
+/* Starlight's recommended Tailwind v4 compatibility layers. */
+@layer base, starlight, theme, components, utilities;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import './tokens.css';
+
+/* Brand Starlight through supported CSS variables; keep its native layout/components. */
+:root {
+  --sl-font: var(--site-font);
+  --sl-font-mono: var(--site-mono);
+  --sl-color-white: var(--site-text);
+  --sl-color-text: var(--site-text);
+  --sl-color-gray-2: var(--site-muted);
+  --sl-color-gray-3: var(--site-muted);
+  --sl-color-bg: var(--site-bg);
+  --sl-color-bg-nav: var(--site-bg);
+  --sl-color-bg-sidebar: var(--site-bg);
+  --sl-color-bg-inline-code: var(--site-subtle);
+  --sl-color-hairline: var(--site-border);
+  --sl-color-hairline-light: var(--site-border);
+  --sl-color-hairline-shade: var(--site-border);
+  --sl-color-accent: var(--site-accent);
+  --sl-color-accent-high: var(--site-link);
+  --sl-color-accent-low: var(--site-tint);
+  --sl-color-text-accent: var(--site-link);
+  --sl-color-bg-accent: var(--site-button-bg);
+  --sl-color-text-invert: var(--site-button-text);
+  --sl-content-width: 46rem;
+}
+:root[data-theme='light'] {
+  --sl-color-white: var(--site-text);
+  --sl-color-gray-2: var(--site-muted);
+  --sl-color-gray-3: var(--site-muted);
+  --sl-color-accent: var(--site-link);
+  --sl-color-accent-high: var(--site-link);
+  --sl-color-accent-low: var(--site-tint);
+  --sl-color-text-accent: var(--site-link);
+  --sl-color-bg-accent: var(--site-button-bg);
+  --sl-color-text-invert: var(--site-button-text);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

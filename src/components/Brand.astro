@@ -1,0 +1,9 @@
+---
+import { site } from '../data/site';
+---
+<a class="brand" href="/" aria-label={`${site.name} 官方首頁，${site.nameNote}`}>
+  <span class="brand-mark" aria-hidden="true">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 6H4v13h3M18 6h3v13h-3M9 10h.01M16 10h.01M9 15h7" /></svg>
+  </span>
+  <span class="brand-name">{site.name}</span><span class="brand-note">{site.nameNote}</span>
+</a>

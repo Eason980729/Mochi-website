@@ -1,0 +1,6 @@
+{
+  "sidebarNav.accessibleLabel": "文件導覽",
+  "page.draft": "這是草稿內容，不會包含在正式建置中。",
+  "heading.anchorLabel": "「{{title}}」章節",
+  "builtWithStarlight.label": "使用 Starlight 建置"
+}

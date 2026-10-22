@@ -1,0 +1,11 @@
+// Future Cloudflare Workers Static Assets configuration; no deployment has run.
+// Pure static assets: no Worker entry point, API, bindings, or database.
+{
+  "name": "discord-bot-website",
+  "compatibility_date": "2026-10-22",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

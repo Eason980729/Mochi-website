@@ -1,0 +1,20 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<SiteLayout title="需要協助，從這裡開始。" description="查看使用文件及支援資訊。正式聯絡方式與支援伺服器尚待確認。">
+  <div class="container support-content">
+    <p class="page-lead">先看看文件裡的操作說明，或了解接下來會提供的支援方式。</p>
+    <div class="support-grid">
+      <section class="support-block">
+        <Icon name="book" size={28} /><h2>先從文件找答案</h2><p>查看功能可用範圍、AI 聊天與音樂指令的基本用法。</p>
+        <a class="text-link" href="/docs">開啟文件中心 <Icon name="arrow" size={18} /></a>
+      </section>
+      <section class="support-block">
+        <Icon name="chat" size={28} /><h2>聯絡支援</h2><p>正式支援伺服器、聯絡方式與服務時間尚待確認。</p><span class="status-note">支援管道準備中</span>
+      </section>
+    </div>
+    <p class="small-note support-note">目前尚未提供可用的聯絡管道；確認後將於此頁公布。</p>
+  </div>
+</SiteLayout>

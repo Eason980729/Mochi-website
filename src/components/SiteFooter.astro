@@ -1,0 +1,8 @@
+---
+import Brand from './Brand.astro';
+import { footerLinks } from '../data/site';
+---
+<footer class="site-footer"><div class="container">
+  <div class="footer-main"><div><Brand /><p class="footer-description">社群裡的日常，從這裡開始。</p></div><nav aria-label="頁尾導覽">{footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}</nav></div>
+  <div class="footer-meta"><span>網站名稱與圖示為暫用識別，正式品牌資訊待確認。</span><a href="/docs/features#功能可用範圍">查看功能可用範圍 <span aria-hidden="true">↗</span></a></div>
+</div></footer>
