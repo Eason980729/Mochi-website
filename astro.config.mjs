@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
+import { site } from './src/data/site.ts';
+import { themeBootstrap } from './src/scripts/theme-bootstrap.ts';
 
 export default defineConfig({
   site: 'https://bot.eason729.com',
@@ -9,7 +11,9 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [
     starlight({
-      title: 'Discord Bot 文件',
+      title: site.name,
+      logo: { src: `./public${site.logo}`, alt: '' },
+      head: [{ tag: 'script', content: themeBootstrap }],
       description: 'Discord Bot 使用文件與功能說明。正式名稱與邀請資訊待確認。',
       defaultLocale: 'root',
       locales: {

@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 ---
 <label class="theme-picker">
   <Icon name="theme" size={18} /><span class="sr-only">選擇佈景主題</span>
-  <select aria-label="選擇佈景主題" data-theme-picker><option value="auto">系統</option><option value="light">淺色</option><option value="dark">深色</option></select>
+  <select aria-label="選擇佈景主題" data-theme-picker><option value="light">淺色</option><option value="dark">深色</option><option value="auto" selected>系統</option></select>
 </label>
 <script>
   import { initializeThemePicker } from '../scripts/theme';

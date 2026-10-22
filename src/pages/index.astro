@@ -1,6 +1,7 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import Icon from '../components/Icon.astro';
+import InviteButton from '../components/InviteButton.astro';
 import { commonFeatures, optionalFeatures } from '../data/features';
 import { site } from '../data/site';
 ---
@@ -12,12 +13,8 @@ import { site } from '../data/site';
       <h1 id="hero-heading">讓社群的每一天，<br /><span>少一點繁瑣。</span></h1>
       <p class="hero-description">從一句歡迎、一個身分組，到一起聽的音樂。<br class="desktop-break" />把常用的互動與工具，留在大家熟悉的 Discord 裡。</p>
       <div class="hero-actions">
-        <a class="button button-primary" href="/docs">探索使用文件 <Icon name="arrow" size={18} /></a>
-        {site.inviteUrl ? (
-          <a class="button button-secondary" href={site.inviteUrl} rel="noopener noreferrer">邀請機器人 <Icon name="external" size={18} /></a>
-        ) : (
-          <button class="button button-secondary" disabled aria-describedby="invite-note">邀請機器人 <Icon name="external" size={18} /></button>
-        )}
+        <InviteButton />
+        <a class="button button-secondary" href="/docs">探索使用文件 <Icon name="arrow" size={18} /></a>
       </div>
       {!site.inviteUrl && <p id="invite-note" class="small-note">邀請連結待確認，目前尚未開放邀請入口。</p>}
     </div>

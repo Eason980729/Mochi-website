@@ -50,6 +50,7 @@ Astro 7 的預覽若以背景程序執行，可使用 `npm run preview -- status
     ├── components/
     │   ├── Brand.astro        # 暫用識別與名稱標示
     │   ├── Icon.astro         # 本機 SVG 線條圖示
+    │   ├── InviteButton.astro # 邀請按鈕與開發中提示視窗
     │   ├── SiteHeader.astro   # 官網導覽
     │   ├── SiteFooter.astro   # 官網頁尾
     │   └── ThemeSelect.astro  # 深色／淺色／系統選擇
@@ -69,7 +70,10 @@ Astro 7 的預覽若以背景程序執行，可使用 `npm run preview -- status
     │   ├── index.astro        # /
     │   └── support.astro      # /support
     ├── scripts/
-    │   └── theme.ts           # 官網主題偏好與系統主題事件
+    │   ├── theme.ts           # 官網主題偏好與系統主題事件
+    │   ├── theme-bootstrap.ts # 兩種版型繪製前與返回頁面時的主題同步
+    │   ├── navigation.ts      # 手機導覽展開、收合與焦點
+    │   └── invite-dialog.ts   # 提示視窗關閉、捲動鎖定與焦點還原
     └── styles/
         ├── tokens.css        # 共用色彩與字體變數
         ├── site.css          # 官網 Tailwind v4、版面與響應式樣式
@@ -91,18 +95,22 @@ Starlight 依內容路徑產生路由，因此文件刻意放在 `src/content/do
 可用範圍、文件入口及頁尾。支援與 404 共用導航、字體及配色。
 
 Docs 保留原生 Starlight 側邊欄、文章目錄、Pagefind 搜尋及主題切換，沒有覆寫內部元件。
-`global.css` 僅調整支援的品牌變數及內容寬度；Docs 的 Tailwind 相容層與官網的 CSS 分開載入。
+`global.css` 調整品牌變數、提示框配色及內容寬度；Docs 的 Tailwind 相容層與官網的 CSS 分開載入。
+品牌名稱與 Logo 來源共用 `src/data/site.ts`，Docs 透過官方 Logo 設定顯示同一圖示。
 
 兩種版型共用 `tokens.css` 與 Starlight 的 `starlight-theme` 偏好值。
 官網在頁面繪製前套用主題，支援跟隨系統、跨分頁同步，以及儲存空間遭封鎖時的當頁切換。
 主題選擇會使用瀏覽器 localStorage；目前沒有追蹤程式、外部字體、聯絡表單或 Bot 連線。
 
-官網在 1000px、780px、520px 設有版面調整。手機版導覽換行、展示區改為單欄，
-不以隱藏選單阻擋導覽。提供跳到主要內容、鍵盤焦點樣式及觸控操作尺寸。
+官網在 1000px、780px、520px 設有版面調整。780px 以下 Header 使用單排品牌、主題圖示及漢堡按鈕，
+選單在正常文件流中展開，支援 Esc 收合及鍵盤焦點。主題圖示保留原有原生選擇器的三種選項。
+提供跳到主要內容、鍵盤焦點樣式及觸控操作尺寸。
 只使用輕量 hover transition 與錨點平滑捲動，`prefers-reduced-motion` 下停用。
 
-邀請網址集中於 `src/data/site.ts`，未確認前保持 `null`，顯示停用按鈕與原因；
-不要填入假網址。正式品牌需同步更新該檔、`Brand.astro`、favicon 及 Starlight 標題。
+邀請網址集中於 `src/data/site.ts`，未確認前保持 `null`，按鈕開啟原生 Dialog 的開發中提示。
+視窗支援確認、關閉圖示、遮罩及 Esc 關閉，關閉後還原觸發按鈕焦點與頁面捲動位置。
+正式開放時設定已確認的 `inviteUrl`，元件會改為邀請連結；不要填入假網址。
+正式品牌名稱只需更新 `site.ts`，Logo 更新其指向的本機素材；兩種 Header 保留各自結構。
 功能展示集中於 `src/data/features.ts`；若修改文件標題，須同步核對 `docsAnchor` 與實際產生的錨點。
 法律文件以可見的草稿告示標記，沒有設定會使頁面退出正式建置的 `draft: true`。
 
@@ -132,7 +140,8 @@ Docs 保留原生 Starlight 側邊欄、文章目錄、Pagefind 搜尋及主題�
 
 尚未安裝 Wrangler、登入 Cloudflare、建立 Worker、設定自訂網域或執行部署。
 `site` 設定僅用來產生正確的 canonical 網址，不會自動綁定網域。
-亦未連接 GitHub 或建立 Git commit。
+已建立本機 Git 版本管理，`main` 保存初始版本，本輪 UI 優化位於 `ui/first-polish`。
+未連接 GitHub、設定遠端、推送或將 UI 分支合併至 `main`。
 
 ## 後續開發
 

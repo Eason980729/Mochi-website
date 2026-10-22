@@ -2,6 +2,7 @@
 export const site = {
   name: 'Discord Bot',
   nameNote: '名稱待確認',
+  logo: '/favicon.svg',
   description: '歡迎訊息、反應身分組與遊戲資訊，以及依伺服器啟用的 AI、音樂和客服工具。',
   // Set only after the maintainer confirms the real invite URL.
   inviteUrl: null as string | null,

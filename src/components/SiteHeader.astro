@@ -3,8 +3,16 @@ import Brand from './Brand.astro';
 import ThemeSelect from './ThemeSelect.astro';
 const { pathname } = Astro.url;
 ---
-<header class="site-header"><div class="container header-inner">
+<header class="site-header" data-site-header><div class="container header-inner">
   <Brand />
-  <nav class="site-nav" aria-label="主要導覽"><a href="/#features">功能</a><a href="/docs">文件</a><a href="/support" aria-current={pathname === '/support' ? 'page' : undefined}>支援</a></nav>
+  <nav id="site-navigation" class="site-nav" aria-label="主要導覽"><a href="/#features">功能</a><a href="/docs">文件</a><a href="/support" aria-current={pathname === '/support' ? 'page' : undefined}>支援</a></nav>
   <ThemeSelect />
+  <button class="menu-toggle" type="button" data-menu-toggle aria-controls="site-navigation" aria-expanded="false" aria-label="開啟選單">
+    <svg class="menu-open-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+    <svg class="menu-close-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+  </button>
 </div></header>
+<script>
+  import { initializeNavigation } from '../scripts/navigation';
+  initializeNavigation();
+</script>

@@ -2,6 +2,7 @@
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { site } from '../data/site';
+import { themeBootstrap } from '../scripts/theme-bootstrap';
 import '../styles/site.css';
 
 interface Props {
@@ -23,15 +24,7 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ''), Astro.site);
     <link rel="canonical" href={canonical} /><link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:title" content={title} /><meta property="og:description" content={description} />
     <meta property="og:type" content="website" /><meta property="og:locale" content="zh_TW" /><meta property="og:url" content={canonical} />
-    <script is:inline>
-      // Apply before paint using Starlight's theme preference.
-      (() => {
-        let preference;
-        try { preference = localStorage.getItem('starlight-theme'); } catch {}
-        document.documentElement.dataset.theme = preference === 'light' || preference === 'dark'
-          ? preference : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      })();
-    </script>
+    <script is:inline set:html={themeBootstrap} />
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳到主要內容</a><SiteHeader />

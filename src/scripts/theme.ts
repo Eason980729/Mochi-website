@@ -25,5 +25,9 @@ export function initializeThemePicker() {
   window.addEventListener('storage', (event) => {
     if (event.key === key || event.key === null) { preference = parseTheme(event.newValue); apply(); }
   });
+  window.addEventListener('pageshow', () => {
+    try { preference = parseTheme(localStorage.getItem(key)); } catch { /* Retain the current choice. */ }
+    apply();
+  });
   apply();
 }

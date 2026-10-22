@@ -28,6 +28,18 @@
   --sl-color-bg-accent: var(--site-button-bg);
   --sl-color-text-invert: var(--site-button-text);
   --sl-content-width: 46rem;
+  --aside-note-bg: #222831;
+  --aside-note-border: #8998e8;
+  --aside-note-text: #b5c1ff;
+  --aside-tip-bg: #29252f;
+  --aside-tip-border: #a797c3;
+  --aside-tip-text: #d0bde9;
+  --aside-caution-bg: #2c2821;
+  --aside-caution-border: #c5a16c;
+  --aside-caution-text: #e3c398;
+  --aside-danger-bg: #2d2427;
+  --aside-danger-border: #ce8d97;
+  --aside-danger-text: #edb4bc;
 }
 :root[data-theme='light'] {
   --sl-color-white: var(--site-text);
@@ -39,6 +51,40 @@
   --sl-color-text-accent: var(--site-link);
   --sl-color-bg-accent: var(--site-button-bg);
   --sl-color-text-invert: var(--site-button-text);
+  --aside-note-bg: #eff1f6;
+  --aside-note-border: #56659d;
+  --aside-note-text: #3e4c83;
+  --aside-tip-bg: #f3f0f5;
+  --aside-tip-border: #83659f;
+  --aside-tip-text: #684780;
+  --aside-caution-bg: #f6f2e9;
+  --aside-caution-border: #a77832;
+  --aside-caution-text: #80571b;
+  --aside-danger-bg: #f8eff0;
+  --aside-danger-border: #b35a66;
+  --aside-danger-text: #923f4b;
+}
+
+/* Keep Starlight's Aside markup, title, icon and existing left-border geometry. */
+.starlight-aside--note {
+  --sl-color-asides-text-accent: var(--aside-note-text);
+  --sl-color-asides-border: var(--aside-note-border);
+  background-color: var(--aside-note-bg);
+}
+.starlight-aside--tip {
+  --sl-color-asides-text-accent: var(--aside-tip-text);
+  --sl-color-asides-border: var(--aside-tip-border);
+  background-color: var(--aside-tip-bg);
+}
+.starlight-aside--caution {
+  --sl-color-asides-text-accent: var(--aside-caution-text);
+  --sl-color-asides-border: var(--aside-caution-border);
+  background-color: var(--aside-caution-bg);
+}
+.starlight-aside--danger {
+  --sl-color-asides-text-accent: var(--aside-danger-text);
+  --sl-color-asides-border: var(--aside-danger-border);
+  background-color: var(--aside-danger-bg);
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
