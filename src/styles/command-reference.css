@@ -1,0 +1,176 @@
+/* Opt-in document styles. Keep Starlight's navigation, headings and theme intact. */
+.command-reference {
+  min-width: 0;
+}
+
+.command-reference .command-jump {
+  padding: 0 1rem;
+  border: 1px solid var(--site-border);
+  border-radius: .25rem;
+  background: transparent;
+}
+
+.command-reference .command-jump summary {
+  padding-block: .75rem;
+  color: var(--site-text);
+  font-size: var(--sl-text-sm);
+  cursor: pointer;
+}
+
+.command-reference .command-index ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .125rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.command-reference .command-index {
+  padding-bottom: .75rem;
+}
+
+.command-reference .command-index-group + .command-index-group {
+  margin-top: .75rem;
+  padding-top: .75rem;
+  border-top: 1px solid var(--site-border);
+}
+
+.command-reference .command-index-label {
+  margin: 0 0 .25rem;
+  color: var(--site-muted);
+  font-size: var(--sl-text-sm);
+}
+
+.command-reference .command-index li {
+  margin: 0;
+  min-width: 0;
+}
+
+.command-reference .command-index a {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 2.75rem;
+  text-decoration: none;
+}
+
+.command-reference .command-index code {
+  padding: 0;
+  background: transparent;
+}
+
+.command-reference .command-index a:hover code {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.command-reference .command-block {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  margin-block: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--site-border);
+  border-radius: .375rem;
+  background: var(--site-bg);
+}
+
+.command-reference .command-block > :first-child {
+  margin-top: 0;
+}
+
+.command-reference .command-block > :last-child {
+  margin-bottom: 0;
+}
+
+.command-reference :is(.command-block h2 code, h3 code, .command-index code) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.command-reference .command-block :is(h2, h3) {
+  font-size: var(--sl-text-lg);
+}
+
+.command-reference .command-block :is(h2, h3) code {
+  padding: 0;
+  background: transparent;
+}
+
+.command-reference .command-block table {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.command-reference .command-block :is(th, td) {
+  overflow-wrap: anywhere;
+  vertical-align: top;
+}
+
+.command-reference .command-block :is(th, td):nth-child(-n + 2) {
+  width: 23%;
+}
+
+.command-reference .command-block td code {
+  padding-inline: 0;
+  background: transparent;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.command-reference .command-access {
+  display: grid;
+  gap: .5rem;
+  padding-top: .75rem;
+  border-top: 1px solid var(--site-border);
+  font-size: var(--sl-text-sm);
+}
+
+.command-reference .command-access > div {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr);
+  gap: .75rem;
+}
+
+.command-reference .command-access :is(dt, dd) {
+  margin: 0;
+  padding: 0;
+}
+
+.command-reference .command-access dt {
+  color: var(--site-text);
+}
+
+.command-reference .command-access dd {
+  color: var(--site-text);
+  overflow-wrap: anywhere;
+}
+
+.command-reference :is(a, summary):focus-visible {
+  outline: 2px solid var(--site-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 35rem) {
+  .command-reference .command-block {
+    padding: 1rem;
+  }
+
+  .command-reference .command-access > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .125rem;
+  }
+
+  .command-reference .command-block :is(th, td) {
+    padding-inline: .5rem;
+  }
+
+  .command-reference .command-block :is(th, td):first-child {
+    width: 33%;
+  }
+
+  .command-reference .command-block :is(th, td):nth-child(2) {
+    width: 27%;
+  }
+}

@@ -1,0 +1,192 @@
+---
+title: AI 聊天指令參考
+description: 查閱聊天、個人化與個人記憶操作。
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import '../../../../styles/command-reference.css';
+
+<div class="command-reference">
+
+查閱聊天、個人化與個人記憶操作。
+
+[操作指南](/docs/guides/ai) · [權限定義](/docs/commands#管理者權限)
+
+本頁的個人化與記憶操作以本人帳號為範圍，跨伺服器共用，不涵蓋頻道共享記憶。回覆可見性、資料傳送與清除範圍，請先閱讀[聊天與記憶管理指南](/docs/guides/ai#開始對話)。
+
+<details class="command-jump">
+<summary>指令索引（8）</summary>
+<nav id="指令快速索引" class="command-index" aria-label="指令快速索引">
+<div class="command-index-group">
+  <p class="command-index-label">對話與個人化</p>
+  <ul>
+    <li><a href="#ai-chat"><code>/ai chat</code></a></li>
+    <li><a href="#ai-memory"><code>/ai memory</code></a></li>
+    <li><a href="#ai-help"><code>/ai help</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">查看與清除個人記憶</p>
+  <ul>
+    <li><a href="#ai-memories"><code>/ai memories</code></a></li>
+    <li><a href="#ai-forget"><code>/ai forget</code></a></li>
+    <li><a href="#ai-forget-all"><code>/ai forget-all</code></a></li>
+    <li><a href="#ai-forget-anything"><code>/ai forget-anything</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">管理者設定</p>
+  <ul>
+    <li><a href="#ai-channel"><code>/ai channel</code></a></li>
+  </ul>
+</div>
+</nav>
+</details>
+
+## 對話與個人化
+
+<section class="command-block" aria-labelledby="ai-chat">
+
+### `/ai chat`
+
+向 AI 提問並取得僅自己可見的回覆。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `message` | 必填・文字 | 要傳送給 AI 的問題或內容。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在已開放 AI 的伺服器及已設定的 AI 聊天頻道使用。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/ai chat`，在 `message` 輸入「請用三點說明如何整理讀書筆記」。
+
+僅自己可見不代表內容不上傳或不儲存；回答時也可能按需讀取目前頻道歷史。公開對話改用文字頻道提及 Mochi，不是另一個 Slash Command；公開回答也可能使用你的個人化與長期記憶。
+
+</section>
+
+<section class="command-block" aria-labelledby="ai-memory">
+
+### `/ai memory`
+
+開啟表單更新個人回覆語氣與固定資訊。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用，個人記憶服務需可用。</dd></div>
+</dl>
+
+語氣最多 500 字元、固定資訊最多 1,000 字元，兩者可留空。送出空白會以空值更新，不會保留舊欄位內容。
+
+</section>
+
+<section class="command-block" aria-labelledby="ai-help">
+
+### `/ai help`
+
+查看聊天與記憶管理的基本說明。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用。</dd></div>
+</dl>
+
+回覆會列出基本聊天及記憶管理方式，僅自己可見。
+
+</section>
+
+## 查看與清除個人記憶
+
+<section class="command-block" aria-labelledby="ai-memories">
+
+### `/ai memories`
+
+列出自己的長期記憶及 ID。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用，記憶服務需可用。</dd></div>
+</dl>
+
+畫面最多列十筆，每筆內容可能截短，不是完整資料匯出；可複製完整 ID 供 forget 使用。
+
+</section>
+
+<section class="command-block" aria-labelledby="ai-forget">
+
+### `/ai forget`
+
+刪除自己的一筆指定長期記憶。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `memory_id` | 必填・文字 | 從 `/ai memories` 複製的完整 UUID。只能刪除屬於自己的記憶。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>個人記憶服務需可用。</dd></div>
+</dl>
+
+**操作方式**：先執行 `/ai memories`，複製要刪除那一筆的完整 ID，再貼到 `memory_id` 送出。
+
+不會一併清除個人化設定或原始聊天。ID 格式不符或記憶不屬於本人時會失敗。
+
+</section>
+
+<section class="command-block" aria-labelledby="ai-forget-all">
+
+### `/ai forget-all`
+
+清空自己的所有長期記憶。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>個人記憶服務需可用。</dd></div>
+</dl>
+
+直接執行，沒有額外確認視窗；不會一併清除個人化設定與聊天紀錄。
+
+</section>
+
+<section class="command-block" aria-labelledby="ai-forget-anything">
+
+### `/ai forget-anything`
+
+經確認清除自己的個人化、長期記憶與短期聊天資料。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>個人記憶服務需可用，執行後需由本人在 60 秒內完成確認。</dd></div>
+</dl>
+
+這項操作清除目前個人 AI 資料中的個人化設定、長期記憶與短期聊天紀錄，不會刪除 Discord 原訊息、頻道共享記憶或記憶操作事件紀錄，也不代表第三方或備份資料已永久刪除。
+
+</section>
+
+## 管理者設定
+
+<section class="command-block" aria-labelledby="ai-channel">
+
+### `/ai channel`
+
+新增允許 AI 聊天的文字頻道。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `channel` | 必填・文字頻道 | 允許使用 AI 的伺服器文字頻道。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/ai channel`，在 `channel` 從清單選取要提供聊天的文字頻道。
+
+新增允許的聊天頻道；本頁收錄的 Slash Commands 沒有移除頻道操作。
+
+</section>
+
+</div>

@@ -5,6 +5,10 @@
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 @import './tokens.css';
+/* Draft source must not generate Tailwind arbitrary-content utilities in public CSS. */
+@source not '../content/docs';
+@source not '../../.astro';
+@source not '../../dist';
 
 /* Brand Starlight through supported CSS variables; keep its native layout/components. */
 :root {
@@ -27,7 +31,7 @@
   --sl-color-text-accent: var(--site-link);
   --sl-color-bg-accent: var(--site-button-bg);
   --sl-color-text-invert: var(--site-button-text);
-  --sl-content-width: 46rem;
+  --sl-content-width: 48rem;
   --aside-note-bg: #222831;
   --aside-note-border: #8998e8;
   --aside-note-text: #b5c1ff;
@@ -86,6 +90,55 @@
   --sl-color-asides-border: var(--aside-danger-border);
   background-color: var(--aside-danger-bg);
 }
+
+/* Give multi-step procedures room to scan without changing the native list layout. */
+.sl-markdown-content ol > li + li {
+  margin-top: .625rem;
+}
+
+.sl-markdown-content .starlight-aside {
+  margin-block: 1.5rem;
+}
+
+/* Publication placeholders only; normal Docs keep Starlight's typography and layout. */
+:root:has([data-docs-publication]) #_top {
+  margin-top: 0;
+  color: var(--sl-color-gray-2);
+  font-size: var(--sl-text-base);
+  font-weight: 500;
+  line-height: var(--sl-line-height);
+  overflow-wrap: anywhere;
+}
+
+.sl-markdown-content [data-docs-publication] {
+  padding-block: .5rem 1rem;
+}
+
+.sl-markdown-content [data-docs-publication] > h2 {
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: var(--sl-text-h1);
+}
+
+.sl-markdown-content [data-docs-publication] > p {
+  margin-block: .875rem 0;
+}
+
+.sl-markdown-content [data-docs-publication] > .docs-publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem 1.5rem;
+  margin-block-start: 1.25rem;
+}
+
+.sl-markdown-content [data-docs-publication] > .docs-publication-links > a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }

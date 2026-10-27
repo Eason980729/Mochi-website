@@ -1,0 +1,49 @@
+/* Shared by the product pages and Starlight through tokens.css. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--site-muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--site-text); }
+.theme-toggle:focus-visible { outline: 2px solid var(--site-accent); outline-offset: 2px; }
+.theme-toggle:disabled { cursor: default; }
+.theme-toggle [data-theme-icon] { display: none; }
+:root:not([data-theme-preference]) .theme-toggle [data-theme-icon='system'],
+:root[data-theme-preference='system'] .theme-toggle [data-theme-icon='system'],
+:root[data-theme-preference='light'] .theme-toggle [data-theme-icon='light'],
+:root[data-theme-preference='dark'] .theme-toggle [data-theme-icon='dark'] {
+  display: inline-flex;
+}
+
+/* Theme colors change in one commit; snapshots provide the only theme animation. */
+:root[data-theme-updating] *,
+:root[data-theme-updating] *::before,
+:root[data-theme-updating] *::after {
+  transition: none !important;
+}
+
+/* Scope overrides to our button reveal; leave unrelated view transitions alone. */
+:root[data-theme-reveal]::view-transition {
+  pointer-events: none;
+}
+:root[data-theme-reveal]::view-transition-group(root),
+:root[data-theme-reveal]::view-transition-old(root),
+:root[data-theme-reveal]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+:root[data-theme-reveal]::view-transition-old(root) {
+  z-index: 0;
+}
+:root[data-theme-reveal]::view-transition-new(root) {
+  z-index: 1;
+}

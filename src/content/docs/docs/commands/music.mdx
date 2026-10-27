@@ -1,0 +1,258 @@
+---
+title: 音樂播放器指令參考
+description: 查閱播放、佇列、模式與固定面板操作。
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import '../../../../styles/command-reference.css';
+
+<div class="command-reference">
+
+查閱播放、佇列、模式與固定面板操作。
+
+[操作指南](/docs/guides/music) · [權限定義](/docs/commands#管理者權限)
+
+<details class="command-jump">
+<summary>指令索引（12）</summary>
+<nav id="指令快速索引" class="command-index" aria-label="指令快速索引">
+<div class="command-index-group">
+  <p class="command-index-label">播放與連線</p>
+  <ul>
+    <li><a href="#music-play"><code>/music play</code></a></li>
+    <li><a href="#music-pause"><code>/music pause</code></a></li>
+    <li><a href="#music-resume"><code>/music resume</code></a></li>
+    <li><a href="#music-skip"><code>/music skip</code></a></li>
+    <li><a href="#music-stop"><code>/music stop</code></a></li>
+    <li><a href="#music-leave"><code>/music leave</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">佇列與播放模式</p>
+  <ul>
+    <li><a href="#music-queue"><code>/music queue</code></a></li>
+    <li><a href="#music-remove"><code>/music remove</code></a></li>
+    <li><a href="#music-shuffle"><code>/music shuffle</code></a></li>
+    <li><a href="#music-shuffle-mode"><code>/music shuffle-mode</code></a></li>
+    <li><a href="#music-loop"><code>/music loop</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">管理者設定</p>
+  <ul>
+    <li><a href="#music-panel"><code>/music panel</code></a></li>
+  </ul>
+</div>
+</nav>
+</details>
+
+## 播放與連線
+
+<section class="command-block" aria-labelledby="music-play">
+
+### `/music play`
+
+搜尋 YouTube 歌曲，或加入歌曲與播放清單。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `query` | 必填・文字 | YouTube 歌曲網址、播放清單網址或搜尋關鍵字。不接受空白內容及其他網站的網址。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/music play`，在 `query` 輸入「鋼琴音樂」，送出後從搜尋結果選擇歌曲。
+
+待播佇列最多 100 首，單次播放清單最多解析前 100 個項目；無法使用或超出剩餘空間的項目不會全部加入。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-pause">
+
+### `/music pause`
+
+暫停目前歌曲並保留播放位置。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+只有正在播放時會產生暫停效果；以 `/music resume` 繼續。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-resume">
+
+### `/music resume`
+
+從暫停位置繼續播放。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+只恢復已暫停的音源，不會重新加入已清空的歌曲。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-skip">
+
+### `/music skip`
+
+跳過目前歌曲並處理下一首。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+不限制原點播者使用；沒有後續歌曲時會進入閒置，不會自動搜尋新歌。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-stop">
+
+### `/music stop`
+
+停止播放並清空待播佇列。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+不會立即離開語音；resume 不能恢復已清空的佇列。立即離開請用 `/music leave`。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-leave">
+
+### `/music leave`
+
+經確認後清除播放狀態並離開語音。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+在回覆介面確認或取消。確認後停止、清除佇列與播放歷史，會影響同一伺服器的收聽者。
+
+</section>
+
+## 佇列與播放模式
+
+<section class="command-block" aria-labelledby="music-queue">
+
+### `/music queue`
+
+查看待播歌曲及佇列序號。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用，不必先加入語音頻道。</dd></div>
+</dl>
+
+回覆僅自己可見。查看不會更改播放；介面中的移除或清空操作另需符合語音頻道條件。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-remove">
+
+### `/music remove`
+
+移除指定待播歌曲。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `index` | 必填・整數 | 待播序號，從 1 開始；超出目前佇列範圍時會回覆找不到序號。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+**操作方式**：先用 `/music queue` 找到要移除的歌曲，再在 `/music remove` 的 `index` 填入該序號。
+
+序號會隨播放與其他人的操作改變。不限制原點播者；移除待播項目不影響目前歌曲。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-shuffle">
+
+### `/music shuffle`
+
+將目前待播佇列洗牌一次。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+不會開啟持續隨機；持續隨機請使用 `/music shuffle-mode`。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-shuffle-mode">
+
+### `/music shuffle-mode`
+
+切換持續隨機播放。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+每次執行在開啟與關閉間切換，回覆顯示新狀態。沒有 mode 參數。
+
+</section>
+
+<section class="command-block" aria-labelledby="music-loop">
+
+### `/music loop`
+
+選擇循環方式。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `mode` | 必填・選項 | 從 Discord 的循環選項選擇，不是任意文字。 |
+
+**固定選項**
+
+- 不循環 `none`：不重複已播放歌曲。
+- 單曲循環 `single`：重複目前歌曲。
+- 全部循環 `all`：播放完的歌曲重新加入序列。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>一般成員。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內先加入語音頻道；Mochi 已連線時，需與它在同一語音頻道。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/music loop`，在 `mode` 選「單曲循環」。
+
+</section>
+
+## 管理者設定
+
+<section class="command-block" aria-labelledby="music-panel">
+
+### `/music panel`
+
+在目前文字頻道建立固定控制面板。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器文字頻道使用，Mochi 需能傳送面板；不要求先加入語音。</dd></div>
+</dl>
+
+建立面板不會自動播放。無法確認或更新原面板時可能中止；請檢查原頻道及新頻道的訊息存取權限。
+
+</section>
+
+</div>

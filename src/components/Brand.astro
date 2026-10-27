@@ -1,9 +1,17 @@
 ---
 import { site } from '../data/site';
 ---
-<a class="brand" href="/" aria-label={`${site.name} 官方首頁，${site.nameNote}`}>
+<a class="brand" href="/" aria-label={`${site.name} 官方首頁`}>
   <span class="brand-mark" aria-hidden="true">
-    <img src={site.logo} width="25" height="25" alt="" />
+    <img src={site.logo} width="37" height="37" alt="" />
   </span>
-  <span class="brand-name">{site.name}</span><span class="brand-note">{site.nameNote}</span>
+  <span class="brand-name">{site.name}</span>
 </a>
+
+<style>
+  .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--site-text); text-decoration: none; white-space: nowrap; }
+  .brand:hover { color: var(--site-link); }
+  .brand-mark { display: grid; place-items: center; flex-shrink: 0; width: 37px; height: 37px; }
+  .brand-mark img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .brand-name { font-size: 1.08rem; font-weight: 650; letter-spacing: -.03em; }
+</style>

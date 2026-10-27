@@ -1,0 +1,72 @@
+---
+title: 特勤處製造指令參考
+description: 設定、更新或停止特勤處製造推薦。
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import '../../../../styles/command-reference.css';
+
+<div class="command-reference">
+
+**三角洲行動** · 遊戲輔助工具
+
+設定、更新或停止特勤處製造推薦。
+
+[操作指南](/docs/guides/manufacture) · [權限定義](/docs/commands#管理者權限)
+
+<span id="指令快速索引"></span>
+
+<span id="推薦頻道管理"></span>
+
+<section class="command-block" aria-labelledby="manufacture-setup">
+
+## `/manufacture setup`
+
+將目前文字頻道設為特勤處製造推薦頻道。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在已開放此選用功能的伺服器文字頻道使用，Mochi 需能發送與更新訊息及圖片。</dd></div>
+</dl>
+
+既有其他頻道仍啟用時，先執行 `/manufacture disable` 再換頻道。請依同步回覆確認是否完成，來源失敗或個別訊息失敗時不代表全部已更新。
+
+</section>
+
+<section class="command-block" aria-labelledby="manufacture-refresh">
+
+## `/manufacture refresh`
+
+立即向來源查詢，並依更新條件同步推薦訊息。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>同一伺服器已完成 setup 且未停用，外部資料來源可用。</dd></div>
+</dl>
+
+這項操作嘗試重新同步；推薦的「查看詳情」按鈕則只讀取保存資料，不會刷新即時價格。
+
+手動刷新也可能得到未變更的結果，不代表每次都會編輯 Discord 訊息。當顯示內容未達更新條件時，可能正常略過更新；距上次顯示達六小時也是判斷條件之一，不是更新成功的保證。
+
+收益變動門檻、登入與備援來源的差異，見[資料時效與限制](/docs/guides/manufacture#資料時效與限制)。
+
+</section>
+
+<section class="command-block" aria-labelledby="manufacture-disable">
+
+## `/manufacture disable`
+
+停止此伺服器的推薦自動更新。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在提供此功能的伺服器內使用。</dd></div>
+</dl>
+
+原有推薦訊息保留；以 `/manufacture setup` 重新啟用。
+
+</section>
+
+</div>

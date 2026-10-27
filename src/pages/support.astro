@@ -1,20 +1,51 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import Icon from '../components/Icon.astro';
+import ContactLink from '../components/ContactLink.astro';
 ---
 
-<SiteLayout title="需要協助，從這裡開始。" description="查看使用文件及支援資訊。正式聯絡方式與支援伺服器尚待確認。">
+<SiteLayout title="有什麼可以幫你的？" description="遇到使用問題？先看看常見問題，或透過文件與聯絡方式取得更多協助。">
   <div class="container support-content">
-    <p class="page-lead">先看看文件裡的操作說明，或了解接下來會提供的支援方式。</p>
+    <p class="page-lead">遇到使用問題？先看看常見問題，或透過文件與聯絡方式取得更多協助。</p>
+    <section class="support-faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">常見問題</h2>
+      <details>
+        <summary>如何邀請 Mochi 到我的伺服器？</summary>
+        <p>Mochi 目前採人工邀請方式開放，請透過下方的「聯絡開發者」入口取得協助。</p>
+      </details>
+      <details>
+        <summary>為什麼我看不到 Mochi 的指令？</summary>
+        <p>可能與所在伺服器、頻道或應用程式指令的權限設定有關。請先確認操作的伺服器與頻道，再請伺服器管理員協助檢查權限。</p>
+      </details>
+      <details>
+        <summary>為什麼某些功能無法使用？</summary>
+        <p>部分功能需要管理員完成設定，或僅在特定伺服器提供。請先向伺服器管理員確認該功能是否已啟用並完成設定。</p>
+      </details>
+      <details>
+        <summary>可以提出新功能或客製化需求嗎？</summary>
+        <p>可以，歡迎聯絡開發者提出想法、討論可行性。是否實作仍需依需求評估。</p>
+      </details>
+    </section>
     <div class="support-grid">
       <section class="support-block">
-        <Icon name="book" size={28} /><h2>先從文件找答案</h2><p>查看功能可用範圍、AI 聊天與音樂指令的基本用法。</p>
-        <a class="text-link" href="/docs">開啟文件中心 <Icon name="arrow" size={18} /></a>
+        <Icon name="book" size={28} /><h2>查看文件</h2><p>前往文件中心，查閱已公開的功能指南、指令參考與使用權限說明。</p>
+        <a class="text-link" href="/docs">查看文件 <Icon name="arrow" size={18} /></a>
       </section>
       <section class="support-block">
-        <Icon name="chat" size={28} /><h2>聯絡支援</h2><p>正式支援伺服器、聯絡方式與服務時間尚待確認。</p><span class="status-note">支援管道準備中</span>
+        <Icon name="chat" size={28} /><h2>聯絡開發者</h2><p>仍需要協助，或想提出功能與客製化需求？歡迎透過 Discord 聯絡開發者。</p>
+        <ContactLink />
       </section>
     </div>
-    <p class="small-note support-note">目前尚未提供可用的聯絡管道；確認後將於此頁公布。</p>
   </div>
 </SiteLayout>
+
+<style>
+  .support-faq { margin-top: 48px; }
+  .support-faq h2 { margin-bottom: 20px; font-size: 1.25rem; }
+  details { border-bottom: 1px solid var(--site-border); }
+  details:first-of-type { border-top: 1px solid var(--site-border); }
+  summary { padding-block: 18px; cursor: pointer; }
+  summary::marker { color: var(--site-muted); }
+  summary:focus-visible { outline: 2px solid var(--site-accent); outline-offset: 3px; }
+  details p { padding: 0 0 20px 1.25rem; color: var(--site-muted); font-size: .85rem; overflow-wrap: anywhere; }
+</style>

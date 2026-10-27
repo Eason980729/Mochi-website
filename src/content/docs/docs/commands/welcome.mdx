@@ -1,0 +1,67 @@
+---
+title: 歡迎訊息指令參考
+description: 設定新成員加入時的歡迎頻道與文字。
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import '../../../../styles/command-reference.css';
+
+<div class="command-reference">
+
+設定新成員加入時的歡迎頻道與文字。
+
+[操作指南](/docs/guides/welcome) · [權限定義](/docs/commands#管理者權限)
+
+<span id="指令快速索引"></span>
+
+<span id="頻道與文字設定"></span>
+
+<section class="command-block" aria-labelledby="welcome-channel">
+
+## `/welcome channel`
+
+指定新成員加入時的歡迎訊息頻道。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `channel` | 必填・文字頻道 | 選擇伺服器內的目標文字頻道。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用，Mochi 需能查看目標頻道並傳送嵌入訊息。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/welcome channel`，在 `channel` 從 Discord 清單選取實際的歡迎文字頻道。
+
+設定只保存發送位置，下一位新成員加入時才會觸發歡迎訊息。
+
+</section>
+
+<section class="command-block" aria-labelledby="welcome-message">
+
+## `/welcome message`
+
+更新歡迎訊息的自訂文字。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `message` | 必填・文字 | 支援 `{user}`（成員提及）與 `{server}`（伺服器名稱）。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用；需另以 /welcome channel 指定發送位置。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/welcome message`，將 `message` 填為 `歡迎 {user} 加入 {server}！`。
+
+沒有自訂內容時使用預設文字。這不會代替歡迎頻道設定。
+
+</section>
+
+<span id="測試與暫停前綴指令"></span>
+<span id="prefix-welcome-test"></span>
+<span id="prefix-welcome-stop"></span>
+
+</div>

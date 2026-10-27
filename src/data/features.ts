@@ -1,21 +1,24 @@
-export interface Feature {
+export interface FeatureSummary {
   id: string;
-  /** Starlight's native Markdown heading slug, verified against the static build. */
-  docsAnchor?: string;
   name: string;
   description: string;
   detail?: string;
-  icon: 'welcome' | 'roles' | 'key' | 'chat' | 'music' | 'ticket' | 'chart';
-  tags: string[];
   categoryLabel?: string;
+  icon: 'welcome' | 'roles' | 'key' | 'chat' | 'music' | 'ticket' | 'chart';
+}
+
+export interface FeatureTool extends FeatureSummary {
+  availability: 'common' | 'optional';
+  docsHref?: string;
+}
+
+export interface Feature extends FeatureSummary {
+  homeDetail?: string;
+  /** Starlight's native Markdown heading slug, verified against the static build. */
+  docsAnchor?: string;
+  tags: string[];
   availabilityNote?: string;
-  tools?: {
-    name: string;
-    description: string;
-    icon: Feature['icon'];
-    /** Omit when no real document exists; the row then renders without a link. */
-    docsHref?: string;
-  }[];
+  tools?: FeatureTool[];
 }
 
 export const commonFeatures: Feature[] = [
@@ -33,12 +36,15 @@ export const commonFeatures: Feature[] = [
   },
 ];
 
+const deltaForceCategory = '三角洲行動';
+
 /** Homepage presentation groups; these do not change Bot command scopes. */
 export const optionalFeatures: Feature[] = [
   {
     id: 'ai-chat', docsAnchor: 'ai-聊天', name: 'AI 聊天', icon: 'chat',
     description: '在社群裡，留一個對話的空間。',
     detail: '在已啟用的頻道使用指令或提及機器人對話，並管理自己的個人化設定與長期記憶。',
+    homeDetail: '使用指令或提及機器人對話，並管理自己的個人化設定與長期記憶。',
     tags: ['指定頻道', '個人化', '記憶管理'],
   },
   {
@@ -48,7 +54,7 @@ export const optionalFeatures: Feature[] = [
     tags: ['YouTube', '播放佇列', '語音頻道'],
   },
   {
-    id: 'tickets', docsAnchor: '客服單-v2', name: '客服單 v2', icon: 'ticket',
+    id: 'tickets', docsAnchor: '客服單-v2', name: '客服單系統', icon: 'ticket',
     description: '把需要協助的事，好好接住。',
     detail: '從面板直接開單或填寫表單，在獨立客服頻道中，由設定的客服角色接手處理。',
     tags: ['表單開單', '客服角色'],
@@ -57,17 +63,32 @@ export const optionalFeatures: Feature[] = [
     id: 'manufacture', name: '三角洲行動工具', icon: 'chart',
     description: '每日遊戲資訊與特勤處製造推薦。',
     categoryLabel: '遊戲工具',
-    availabilityNote: '每日密碼目前為通用功能；特勤處製造需另行啟用。',
+    availabilityNote: '每日密碼目前為通用功能；特勤處製造需由開發者授權與啟用。',
     tags: [],
     tools: [
       {
+        id: 'delta-password', availability: 'common', categoryLabel: deltaForceCategory,
         name: '每日密碼', description: '快速查看每日密碼', icon: 'key',
+        detail: '提供三角洲每日密碼資訊，方便遊戲時查閱。',
         docsHref: '/docs/features#三角洲每日密碼',
       },
       {
+        id: 'manufacture', availability: 'optional', categoryLabel: deltaForceCategory,
         name: '特勤處製造', description: '推薦物品與預估收益', icon: 'chart',
+        detail: '查看特勤處製造的推薦物品與預估收益，作為安排製造的參考。',
         docsHref: '/docs/features#三角洲生產推薦',
       },
     ],
   },
 ];
+
+/** Actual availability groups, distinct from the homepage's combined game-tools card. */
+export const featureCatalog: { common: FeatureSummary[]; optional: FeatureSummary[] } = {
+  common: [
+    ...commonFeatures,
+    ...optionalFeatures.flatMap((feature) => feature.tools?.filter((tool) => tool.availability === 'common') ?? []),
+  ],
+  optional: optionalFeatures.flatMap<FeatureSummary>((feature) =>
+    feature.tools ? feature.tools.filter((tool) => tool.availability === 'optional') : [feature],
+  ),
+};

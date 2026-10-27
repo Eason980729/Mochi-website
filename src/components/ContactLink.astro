@@ -1,0 +1,15 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a class:list={['text-link', 'whitespace-nowrap', className]} href={site.discordContactUrl} target="_blank" rel="noopener noreferrer">
+  <slot>聯絡開發者</slot><span class="sr-only">（在新分頁開啟 Discord 個人檔案）</span>
+  <Icon name="external" size={18} />
+</a>

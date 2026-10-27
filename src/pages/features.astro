@@ -1,0 +1,73 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Icon from '../components/Icon.astro';
+import { featureCatalog } from '../data/features';
+---
+
+<SiteLayout title="功能介紹" description="了解 Mochi 的社群管理、日常互動與遊戲工具，以及通用功能、選用功能的提供方式。">
+  <div class="container catalog-content">
+    <p id="availability" class="page-lead">從社群管理、日常互動到遊戲資訊，找到適合伺服器的工具。通用功能仍需完成必要設定；選用功能則由開發者授權與啟用。《三角洲行動》（Delta Force）相關工具由 Mochi 整合提供，非遊戲官方服務或合作項目。</p>
+
+    <section class="catalog-section" id="common-features" aria-labelledby="common-heading">
+      <div class="catalog-heading">
+        <h2 id="common-heading">通用功能</h2>
+        <p>提供共通的社群與遊戲工具。使用前，仍需由管理員設定相關頻道、面板與必要權限。</p>
+      </div>
+      <div class="catalog-list">
+        {featureCatalog.common.map((feature) => (
+          <article class="catalog-feature" id={feature.id} aria-labelledby={`${feature.id}-heading`}>
+            <Icon name={feature.icon} size={26} />
+            <div>
+              {feature.categoryLabel && <span class="category-label">{feature.categoryLabel}</span>}
+              <h3 id={`${feature.id}-heading`}>{feature.name}</h3><p>{feature.detail ?? feature.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="catalog-section" id="optional-features" aria-labelledby="optional-heading">
+      <div class="catalog-heading">
+        <h2 id="optional-heading">選用功能</h2>
+        <p>部分功能採授權制提供。目前選用功能由開發者依伺服器需求進行授權與啟用，暫不開放自行啟用。如有使用需求，歡迎<a href="/support">聯絡開發者</a>洽詢。</p>
+      </div>
+      <div class="catalog-list">
+        {featureCatalog.optional.map((feature) => (
+          <article class="catalog-feature" id={feature.id} aria-labelledby={`${feature.id}-heading`}>
+            <Icon name={feature.icon} size={26} />
+            <div>
+              {feature.categoryLabel && <span class="category-label">{feature.categoryLabel}</span>}
+              <h3 id={`${feature.id}-heading`}>{feature.name}</h3><p>{feature.detail ?? feature.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="custom-service catalog-custom" aria-labelledby="custom-heading">
+      <div class="custom-service-copy">
+        <h2 id="custom-heading">有其他需求？一起討論。</h2>
+        <p>除了現有功能，也歡迎提出伺服器管理流程、自動化工具或社群需求，一起討論客製化功能的可行性。是否實作需依需求評估。</p>
+      </div>
+      <a class="text-link" href="/support">聯絡開發者，討論需求 <Icon name="arrow" size={18} /></a>
+    </section>
+  </div>
+</SiteLayout>
+
+<style>
+  .catalog-content { padding-bottom: 80px; }
+  .catalog-section { margin-top: 56px; }
+  .catalog-heading { margin-bottom: 24px; }
+  .catalog-heading p { max-width: 76ch; margin-top: 14px; color: var(--site-muted); font-size: .9rem; }
+  .catalog-heading a { color: var(--site-link); text-decoration: underline; text-underline-offset: .25em; }
+  .catalog-list { border-top: 1px solid var(--site-border); }
+  .catalog-feature { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 20px; padding-block: 26px; border-bottom: 1px solid var(--site-border); }
+  .catalog-feature > svg { margin-top: 3px; color: var(--site-link); }
+  .catalog-feature h3 { font-size: 1.05rem; font-weight: 600; }
+  .catalog-feature p { max-width: 72ch; margin-top: 8px; color: var(--site-muted); font-size: .9rem; overflow-wrap: anywhere; }
+  .catalog-custom { margin-top: 56px; }
+  @media (max-width: 780px) {
+    .catalog-section, .catalog-custom { margin-top: 40px; }
+    .catalog-feature { gap: 14px; }
+  }
+</style>

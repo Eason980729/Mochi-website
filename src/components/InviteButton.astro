@@ -1,27 +1,18 @@
 ---
 import Icon from './Icon.astro';
-import { site } from '../data/site';
 ---
 
-{site.inviteUrl ? (
-  <a class="button button-primary" href={site.inviteUrl} rel="noopener noreferrer">
-    邀請機器人 <Icon name="external" size={18} />
-  </a>
-) : (
-  <>
-    <button class="button button-primary" type="button" data-invite-trigger aria-haspopup="dialog" aria-controls="invite-dialog">
-      邀請機器人 <Icon name="external" size={18} />
-    </button>
-    <dialog id="invite-dialog" class="invite-dialog" aria-labelledby="invite-dialog-title" aria-describedby="invite-dialog-description">
-      <button class="dialog-close" type="button" data-close-invite aria-label="關閉提示視窗">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
-      </button>
-      <h2 id="invite-dialog-title">功能開發中</h2>
-      <p id="invite-dialog-description">機器人目前仍在開發與準備階段，暫時尚未開放公開邀請，敬請期待！</p>
-      <div class="dialog-actions"><button class="button button-primary" type="button" data-close-invite autofocus>我知道了</button></div>
-    </dialog>
-  </>
-)}
+<button class="button button-primary" type="button" data-invite-trigger aria-haspopup="dialog" aria-controls="invite-dialog">
+  邀請機器人 <Icon name="external" size={18} />
+</button>
+<dialog id="invite-dialog" class="invite-dialog" aria-labelledby="invite-dialog-title" aria-describedby="invite-dialog-description">
+  <button class="dialog-close" type="button" data-close-invite aria-label="關閉邀請說明" autofocus>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+  </button>
+  <h2 id="invite-dialog-title">邀請 Mochi</h2>
+  <p id="invite-dialog-description">Mochi 目前採人工邀請方式開放。如需取得邀請連結，請前往支援頁聯絡開發者。</p>
+  <div class="dialog-actions"><a class="button button-primary" href="/support">聯絡開發者 <Icon name="arrow" size={18} /></a></div>
+</dialog>
 
 <script>
   import { initializeInviteDialog } from '../scripts/invite-dialog';

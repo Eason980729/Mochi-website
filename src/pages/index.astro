@@ -8,45 +8,46 @@ import { site } from '../data/site';
 
 <SiteLayout title="社群裡的日常，從這裡開始" description={site.description} home>
   <section class="hero container" aria-labelledby="hero-heading">
-    <div class="hero-copy">
-      <p class="eyebrow"><span class="tiny-square" aria-hidden="true"></span>為 DISCORD 社群準備的日常工具</p>
-      <h1 id="hero-heading">讓社群的每一天，<br /><span>少一點繁瑣。</span></h1>
-      <p class="hero-description">從一句歡迎、一個身分組，到一起聽的音樂。<br class="desktop-break" />把常用的互動與工具，留在大家熟悉的 Discord 裡。</p>
-      <div class="hero-actions">
-        <InviteButton />
-        <a class="button button-secondary" href="/docs">探索使用文件 <Icon name="arrow" size={18} /></a>
+    <div class="hero-main">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="tiny-square" aria-hidden="true"></span>為 DISCORD 社群準備的日常工具</p>
+        <h1 id="hero-heading" data-hero-typewriter aria-label="讓社群的每一天，少一點繁瑣。"><span data-hero-line aria-hidden="true">讓社群的每一天，</span><br aria-hidden="true" /><span data-hero-line class="hero-title-accent" aria-hidden="true">少一點繁瑣。</span></h1>
+        <p class="hero-description">從一句歡迎、一個身分組，到一起聽的音樂。<br class="desktop-break" />把常用的互動與工具，留在大家熟悉的 Discord 裡。</p>
+        <div class="hero-actions">
+          <InviteButton />
+          <a class="button button-secondary" href="#features">查看功能 <Icon name="arrow" size={18} /></a>
+        </div>
       </div>
-      {!site.inviteUrl && <p id="invite-note" class="small-note">邀請連結待確認，目前尚未開放邀請入口。</p>}
+
+      <aside class="interaction-preview" aria-label="功能操作示意">
+        <div class="preview-title"><span class="mono">COMMUNITY / EVERYDAY</span><span class="preview-label">操作示意</span></div>
+        <div class="preview-event">
+          <span class="event-icon"><Icon name="welcome" size={21} /></span>
+          <div><span class="event-label">當新成員加入</span><p>用一句歡迎，開始認識。</p></div>
+        </div>
+        <div class="preview-event">
+          <span class="event-icon"><Icon name="roles" size={21} /></span>
+          <div><span class="event-label">當成員選擇 Emoji</span><p>領取對應的身分組。</p></div>
+        </div>
+        <div class="preview-event">
+          <span class="event-icon"><Icon name="music" size={21} /></span>
+          <div><span class="event-label">想聽點音樂的時候</span><p>讓音樂接著播放。</p></div>
+          <span class="small-tag">選用</span>
+        </div>
+        <div class="preview-bottom"><span class="preview-dot" aria-hidden="true"></span>歡迎、身分組與音樂，串起社群日常。</div>
+      </aside>
     </div>
 
-    <aside class="interaction-preview" aria-label="功能操作示意">
-      <div class="preview-title"><span class="mono">COMMUNITY / EVERYDAY</span><span class="preview-label">操作示意</span></div>
-      <div class="preview-event">
-        <span class="event-icon"><Icon name="welcome" size={21} /></span>
-        <div><span class="event-label">當新成員加入</span><p>用一句歡迎，開始認識。</p></div>
-      </div>
-      <div class="preview-event">
-        <span class="event-icon"><Icon name="roles" size={21} /></span>
-        <div><span class="event-label">當成員選擇 Emoji</span><p>領取對應的身分組。</p></div>
-      </div>
-      <div class="preview-event">
-        <span class="event-icon"><Icon name="music" size={21} /></span>
-        <div><span class="event-label">想聽點音樂的時候</span><p>讓音樂接著播放。</p></div>
-        <span class="small-tag">選用</span>
-      </div>
-      <div class="preview-bottom"><span class="preview-dot" aria-hidden="true"></span>功能依伺服器設定提供</div>
-    </aside>
+    <div class="intro-strip">
+      <span>社群管理</span><span aria-hidden="true">/</span><span>日常互動</span><span aria-hidden="true">/</span><span>遊戲工具</span>
+      <a href="#features">看看能做些什麼 <span aria-hidden="true">↓</span></a>
+    </div>
   </section>
-
-  <div class="container intro-strip">
-    <span>社群管理</span><span aria-hidden="true">/</span><span>日常互動</span><span aria-hidden="true">/</span><span>遊戲工具</span>
-    <a href="#features">看看能做些什麼 <span aria-hidden="true">↓</span></a>
-  </div>
 
   <section id="features" class="container section common-section" aria-labelledby="common-heading">
     <div class="section-heading">
       <div><p class="eyebrow">01 / EVERYDAY ESSENTIALS</p><h2 id="common-heading">從社群的日常開始。</h2></div>
-      <p>從歡迎與角色領取，照顧社群的日常互動。<br />由管理者完成設定後，就能在指定頻道使用。</p>
+      <p>從歡迎與角色領取，照顧社群的日常互動。</p>
     </div>
     <div class="common-features">
       {commonFeatures.map((feature, index) => (
@@ -54,10 +55,10 @@ import { site } from '../data/site';
           <span class="feature-number mono" aria-hidden="true">0{index + 1}</span>
           <span class="feature-icon"><Icon name={feature.icon} size={25} /></span>
           <div class="common-feature-title">
-            <h3><a href={`/docs/features#${feature.docsAnchor}`}>{feature.name}</a></h3><p>{feature.description}</p>
+            <h3><a href={`/features#${feature.id}`}>{feature.name}</a></h3><p>{feature.description}</p>
           </div>
           <p class="feature-detail">{feature.detail}</p>
-          <a class="feature-arrow" href={`/docs/features#${feature.docsAnchor}`} aria-label={`了解${feature.name}`}><Icon name="external" size={21} /></a>
+          <a class="feature-arrow" href={`/features#${feature.id}`} aria-label={`了解${feature.name}`}><Icon name="external" size={21} /></a>
         </article>
       ))}
     </div>
@@ -67,33 +68,30 @@ import { site } from '../data/site';
     <div class="container section">
       <div class="section-heading">
         <div><p class="eyebrow">02 / MORE FOR YOUR COMMUNITY</p><h2 id="optional-heading">依社群需要，多做一點。</h2></div>
-        <p>聊天、音樂、客服與遊戲資訊。<br />選用功能需由維護者為伺服器啟用與設定。</p>
+        <p>依社群需求提供的擴充功能，讓 Mochi 能適應不同的使用情境。</p>
       </div>
       <div class="optional-grid">
         {optionalFeatures.map((feature) => (
           <article class={`optional-feature optional-${feature.id}`}>
             <div class="optional-top"><Icon name={feature.icon} size={24} /><span class="category-label">{feature.categoryLabel ?? '選用功能'}</span></div>
             <h3>
-              {feature.docsAnchor ? (
-                <a href={`/docs/features#${feature.docsAnchor}`}>{feature.name}<Icon name="external" size={20} /></a>
+              {!feature.tools ? (
+                <a href={`/features#${feature.id}`}>{feature.name}<Icon name="external" size={20} /></a>
               ) : feature.name}
             </h3>
             <p class="optional-description">{feature.description}</p>
-            {feature.detail && <p class="feature-detail">{feature.detail}</p>}
+            {feature.detail && <p class="feature-detail">{feature.homeDetail ?? feature.detail}</p>}
             {feature.tools && (
-              <ul class="tool-list" aria-label={`${feature.name}功能與文件`}>
-                {feature.tools.map((tool) => {
-                  const Row = tool.docsHref ? 'a' : 'div';
-                  return (
-                    <li>
-                      <Row class="tool-row" href={tool.docsHref}>
-                        <Icon name={tool.icon} size={20} />
-                        <span class="tool-copy"><strong>{tool.name}</strong><span>{tool.description}</span></span>
-                        {tool.docsHref && <Icon name="external" size={18} />}
-                      </Row>
-                    </li>
-                  );
-                })}
+              <ul class="tool-list" aria-label={`${feature.name}功能介紹`}>
+                {feature.tools.map((tool) => (
+                  <li>
+                    <a class="tool-row" href={`/features#${tool.id}`}>
+                      <Icon name={tool.icon} size={20} />
+                      <span class="tool-copy"><strong>{tool.name}</strong><span>{tool.description}</span></span>
+                      <Icon name="external" size={18} />
+                    </a>
+                  </li>
+                ))}
               </ul>
             )}
             {feature.id === 'ai-chat' && <div class="inline-example"><span class="mono">/ai chat</span><span>從一個問題開始對話。</span></div>}
@@ -101,7 +99,6 @@ import { site } from '../data/site';
               <ol class="ticket-steps" aria-label="表單開單流程"><li>選擇按鈕</li><li>填寫表單</li><li>進入客服頻道</li></ol>
             )}
             {feature.tags.length > 0 && <ul class="feature-tags" aria-label={`${feature.name}重點`}>{feature.tags.map((tag) => <li>{tag}</li>)}</ul>}
-            {feature.availabilityNote && <p class="small-note tool-availability">{feature.availabilityNote}</p>}
           </article>
         ))}
       </div>
@@ -111,13 +108,21 @@ import { site } from '../data/site';
   <section class="container section availability-section" aria-labelledby="availability-heading">
     <div>
       <p class="eyebrow">03 / AVAILABILITY</p><h2 id="availability-heading">找到適合你的功能。</h2>
-      <p class="section-description">功能會依伺服器的啟用情況與設定提供。<br />使用前，先了解哪些工具已準備好。</p>
-      <a class="text-link" href="/docs/features#功能可用範圍">閱讀功能可用範圍 <Icon name="arrow" size={18} /></a>
+      <p class="section-description">從社群互動到遊戲工具，探索 Mochi 能為你的伺服器做些什麼。</p>
+      <a class="text-link" href="/features#availability">探索功能介紹 <Icon name="arrow" size={18} /></a>
     </div>
     <dl class="availability-list">
-      <div><dt><span class="scope-marker" aria-hidden="true"></span>通用功能</dt><dd>提供共通的社群工具，仍需管理者設定頻道、面板及必要權限。</dd></div>
-      <div><dt><span class="scope-marker optional-marker" aria-hidden="true"></span>選用功能</dt><dd>依伺服器需求由維護者啟用；部分功能另依賴外部服務與相關設定。</dd></div>
+      <div><dt><span class="scope-marker" aria-hidden="true"></span>通用功能</dt><dd>提供歡迎訊息、反應身分組與每日密碼，照顧社群日常。</dd></div>
+      <div><dt><span class="scope-marker optional-marker" aria-hidden="true"></span>選用功能</dt><dd>聊天、音樂、客服與製造推薦，配合不同社群的使用情境。</dd></div>
     </dl>
+    <div class="custom-service">
+      <div class="custom-service-copy">
+        <h3>找不到符合需求的功能？</h3>
+        <p>Mochi 除了現有功能，也可以依照伺服器的實際需求，討論客製化功能的可能性。</p>
+        <p>無論是管理流程、自動化工具，或是特定社群需要的功能，都歡迎向開發者提出想法。</p>
+      </div>
+      <a class="text-link" href="/support">聯絡開發者，討論需求 <Icon name="arrow" size={18} /></a>
+    </div>
   </section>
 
   <section class="container docs-entry" aria-labelledby="docs-heading">
@@ -128,3 +133,7 @@ import { site } from '../data/site';
     </div>
   </section>
 </SiteLayout>
+
+<script>
+  import '../scripts/hero-typewriter';
+</script>

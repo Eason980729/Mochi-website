@@ -1,0 +1,153 @@
+---
+title: 反應身分組指令參考
+description: 建立面板、管理 Emoji 綁定與停止角色領取。
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import '../../../../styles/command-reference.css';
+
+<div class="command-reference">
+
+建立面板、管理 Emoji 綁定與停止角色領取。
+
+[操作指南](/docs/guides/reaction-roles) · [權限定義](/docs/commands#管理者權限)
+
+<details class="command-jump">
+<summary>指令索引（5）</summary>
+<nav id="指令快速索引" class="command-index" aria-label="指令快速索引">
+<div class="command-index-group">
+  <p class="command-index-label">建立與查看面板</p>
+  <ul>
+    <li><a href="#reaction-panel"><code>/reaction panel</code></a></li>
+    <li><a href="#reaction-list"><code>/reaction list</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">新增與移除綁定</p>
+  <ul>
+    <li><a href="#reaction-add"><code>/reaction add</code></a></li>
+    <li><a href="#reaction-remove"><code>/reaction remove</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">停止面板設定</p>
+  <ul>
+    <li><a href="#reaction-delete"><code>/reaction delete</code></a></li>
+  </ul>
+</div>
+</nav>
+</details>
+
+## 建立與查看面板
+
+<section class="command-block" aria-labelledby="reaction-panel">
+
+### `/reaction panel`
+
+在目前文字頻道建立反應身分組面板。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `title` | 必填・文字 | 面板標題。 |
+| `description` | 選填・文字 | 面板說明；省略時不設定自訂說明。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器文字頻道使用，Mochi 需能發送嵌入訊息。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/reaction panel`，在 `title` 填「領取通知角色」，送出後保存回覆中的訊息 ID。
+
+建立後請保存回覆中的訊息 ID，再用 add 綁定角色。
+
+</section>
+
+<section class="command-block" aria-labelledby="reaction-list">
+
+### `/reaction list`
+
+查看指定面板目前的角色綁定。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `message_id` | 必填・文字 | 面板訊息的純數字 ID，不是頻道 ID 或訊息連結。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用，指定面板設定須存在於同一伺服器。</dd></div>
+</dl>
+
+這是管理者設定檢查，不是一般成員的角色領取指令。
+
+</section>
+
+## 新增與移除綁定
+
+<section class="command-block" aria-labelledby="reaction-add">
+
+### `/reaction add`
+
+將一個 Emoji 與角色綁定到面板。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `message_id` | 必填・文字 | 面板訊息的純數字 ID，不是頻道 ID 或訊息連結。 |
+| `emoji` | 必填・文字 | 要綁定或移除的 Emoji；自訂 Emoji 須為 Mochi 可使用的有效格式。 |
+| `role` | 必填・身分組 | 目標角色，不能是 @everyone；Mochi 須能管理它。 |
+| `label` | 選填・文字 | 面板顯示文字，空白時使用角色提及。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>面板須存在於同一伺服器。Mochi 需要管理身分組權限，最高角色高於目標，並能讀取面板及加入反應。</dd></div>
+</dl>
+
+**操作方式**：在 `message_id` 貼上面板建立回覆中的 ID，`emoji` 填 `🎮`，在 `role` 選實際角色；需要顯示名稱時再填 `label`。
+
+Emoji 格式、面板存取或角色階級不符時不會完成綁定；請閱讀錯誤提示。
+
+</section>
+
+<section class="command-block" aria-labelledby="reaction-remove">
+
+### `/reaction remove`
+
+移除指定面板的一個 Emoji 綁定。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `message_id` | 必填・文字 | 面板訊息的純數字 ID，不是頻道 ID 或訊息連結。 |
+| `emoji` | 必填・文字 | 與原綁定完全相同的 Emoji 文字。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>指定 Emoji 綁定須存在於同一伺服器的面板設定。</dd></div>
+</dl>
+
+不會主動收回已發放角色或清除反應；綁定移除後，取消該反應也不再依它撤銷角色。
+
+</section>
+
+## 停止面板設定
+
+<section class="command-block" aria-labelledby="reaction-delete">
+
+### `/reaction delete`
+
+刪除指定面板的設定及所有綁定。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `message_id` | 必填・文字 | 面板訊息的純數字 ID，不是頻道 ID 或訊息連結。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>指定面板設定須存在於同一伺服器。</dd></div>
+</dl>
+
+面板訊息仍保留，既有角色不會主動回收。這不是刪除 Discord 訊息的指令。
+
+</section>
+
+</div>

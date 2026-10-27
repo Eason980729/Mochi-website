@@ -1,8 +1,34 @@
 ---
 import Brand from './Brand.astro';
-import { footerLinks } from '../data/site';
+import { footerLinks, site } from '../data/site';
+const year = new Date().getFullYear();
 ---
-<footer class="site-footer"><div class="container">
-  <div class="footer-main"><div><Brand /><p class="footer-description">社群裡的日常，從這裡開始。</p></div><nav aria-label="頁尾導覽">{footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}</nav></div>
-  <div class="footer-meta"><span>網站名稱與圖示為暫用識別，正式品牌資訊待確認。</span><a href="/docs/features#功能可用範圍">查看功能可用範圍 <span aria-hidden="true">↗</span></a></div>
+<footer class="site-footer"><div class="footer-inner">
+  <div class="footer-main">
+    <div><Brand /><p class="footer-description">社群裡的日常，從這裡開始。</p></div>
+    <nav aria-label="頁尾導覽">{footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
+  </div>
+  <div class="footer-meta">
+    <span>© {year} {site.name}</span>
+    <span>Mochi 為獨立開發的第三方 Discord 機器人，與 Discord Inc. 無官方關聯。</span>
+  </div>
 </div></footer>
+
+<style>
+  .site-footer { border-top: 1px solid var(--site-border); padding-top: 43px; color: var(--site-text); font-family: var(--site-font); line-height: 1.75; }
+  .footer-inner { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
+  .footer-main { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 35px; padding-bottom: 35px; }
+  .footer-description { margin: 12px 0 0; color: var(--site-muted); font-size: .75rem; }
+  nav { display: grid; grid-template-columns: repeat(4, max-content); align-content: start; gap: 8px 26px; padding-top: 7px; font-size: .75rem; }
+  nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--site-text); font-weight: 400; text-decoration: none; white-space: nowrap; }
+  nav a:hover { color: var(--site-link); text-decoration: underline; text-underline-offset: .25em; }
+  .footer-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 20px 24px; border-top: 1px solid var(--site-border); color: var(--site-muted); font-size: .67rem; }
+  .footer-meta > span:first-child { flex-shrink: 0; }
+  .footer-meta > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+  @media (max-width: 780px) {
+    .footer-inner { width: calc(100% - 40px); }
+    .footer-main { flex-direction: column; gap: 20px; }
+    nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 24px; max-width: 24rem; }
+    .footer-meta { flex-direction: column; align-items: flex-start; }
+  }
+</style>

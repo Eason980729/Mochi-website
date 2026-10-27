@@ -21,7 +21,7 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ''), Astro.site);
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{home ? `${site.name}｜社群日常工具` : `${title}｜${site.name}`}</title>
-    <link rel="canonical" href={canonical} /><link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} /><link rel="icon" href={site.logo} type="image/png" />
     <meta property="og:title" content={title} /><meta property="og:description" content={description} />
     <meta property="og:type" content="website" /><meta property="og:locale" content="zh_TW" /><meta property="og:url" content={canonical} />
     <script is:inline set:html={themeBootstrap} />

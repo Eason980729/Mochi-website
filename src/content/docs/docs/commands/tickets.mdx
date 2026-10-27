@@ -1,0 +1,318 @@
+---
+title: 客服單系統指令參考
+description: 查閱客服單 v2 的案件處理、面板、表單與角色設定。
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import '../../../../styles/command-reference.css';
+
+<div class="command-reference">
+
+查閱客服單 v2 的案件處理、面板、表單與角色設定。
+
+[操作指南](/docs/guides/tickets) · [權限定義](/docs/commands#管理者權限)
+
+<details class="command-jump">
+<summary>指令索引（12）</summary>
+<nav id="指令快速索引" class="command-index" aria-label="指令快速索引">
+<div class="command-index-group">
+  <p class="command-index-label">處理案件</p>
+  <ul>
+    <li><a href="#ticket-v2-close"><code>/ticket-v2 close</code></a></li>
+    <li><a href="#ticket-v2-rename"><code>/ticket-v2 rename</code></a></li>
+    <li><a href="#ticket-v2-csv"><code>/ticket-v2 csv</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">面板與按鈕</p>
+  <ul>
+    <li><a href="#ticket-v2-panel"><code>/ticket-v2 panel</code></a></li>
+    <li><a href="#ticket-v2-button-add"><code>/ticket-v2 button-add</code></a></li>
+    <li><a href="#ticket-v2-button-style"><code>/ticket-v2 button-style</code></a></li>
+    <li><a href="#ticket-v2-button-remove"><code>/ticket-v2 button-remove</code></a></li>
+    <li><a href="#ticket-v2-message"><code>/ticket-v2 message</code></a></li>
+  </ul>
+</div>
+<div class="command-index-group">
+  <p class="command-index-label">表單與客服角色</p>
+  <ul>
+    <li><a href="#ticket-v2-field-add"><code>/ticket-v2 field-add</code></a></li>
+    <li><a href="#ticket-v2-field-remove"><code>/ticket-v2 field-remove</code></a></li>
+    <li><a href="#ticket-v2-role-add"><code>/ticket-v2 role-add</code></a></li>
+    <li><a href="#ticket-v2-role-remove"><code>/ticket-v2 role-remove</code></a></li>
+  </ul>
+</div>
+</nav>
+</details>
+
+## 處理案件
+
+<section class="command-block" aria-labelledby="ticket-v2-close">
+
+### `/ticket-v2 close`
+
+提出關閉指定案件的確認。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `ticket_number` | 選填・文字 | 案件編號，例如 `00001` 或 `1`；省略時使用目前開啟中的客服頻道。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd>Discord Administrator、已授權管理角色，或此類客服單設定的客服角色。單純是開單者不適用。</dd></div>
+  <div><dt>操作條件</dt><dd>在同一伺服器內，案件須為開啟狀態；由發起者在 60 秒內確認。</dd></div>
+</dl>
+
+**操作方式**：在目前開啟中的案件頻道執行 `/ticket-v2 close`，省略編號即可提出關閉確認。
+
+開單者可使用頻道內的關閉按鈕，權限不同。正常關閉流程先匯出 CSV 與記錄關閉，再嘗試刪除頻道。收到關閉成功回覆不代表頻道一定已刪除，也不代表刪除全部留存資料；必要時請確認頻道及其存取權限。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-rename">
+
+### `/ticket-v2 rename`
+
+重新命名目前客服單頻道。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `channel_name` | 必填・文字 | 新的名稱標籤，不需自行輸入客服單號；系統保留編號部分。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在開啟中的客服單文字頻道使用，Mochi 需能編輯頻道。</dd></div>
+</dl>
+
+**操作方式**：在開啟中的案件頻道選擇 `/ticket-v2 rename`，將 `channel_name` 填為「一般問題」。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-csv">
+
+### `/ticket-v2 csv`
+
+取得指定案件已匯出的 CSV 對話紀錄。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `ticket_number` | 選填・文字 | 案件編號；與 user 至少提供一項，同時提供時以編號優先。 |
+| `user` | 選填・成員 | 查詢該成員建立的案件；多筆時只列最近最多十筆，再以編號查詢。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在同一伺服器使用，指定案件已有 CSV 且檔案仍存在。</dd></div>
+</dl>
+
+**操作方式**：在 `ticket_number` 填入要取得紀錄的實際案件編號；或用 `user` 選取該案件的開單成員。
+
+`user` 是篩選開單者，不是只匯出該成員的發言；CSV 可能包含其他參與者的訊息。下載的是關閉時已產生的檔案，不會重新擷取頻道或補回已刪除的內容。
+
+客服角色或開單者不會只因能關單就取得此指令權限。CSV 透過僅請求者可見的 Discord 回覆提供；下載或轉傳的檔案不受這則回覆的可見性限制，請妥善處理紀錄內的個人資料。
+
+</section>
+
+## 面板與按鈕
+
+<section class="command-block" aria-labelledby="ticket-v2-panel">
+
+### `/ticket-v2 panel`
+
+在目前文字頻道建立客服面板。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `content` | 選填・文字 | 面板內文，最多 3,500 字元。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器文字頻道使用，Mochi 需能發送面板；開單還需要建立頻道與設定權限的能力。</dd></div>
+</dl>
+
+**操作方式**：選擇 `/ticket-v2 panel`，將 `content` 填為「請選擇問題類型」。
+
+還需設定開單按鈕；沒有按鈕的面板不會自動提供開單入口。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-button-add">
+
+### `/ticket-v2 button-add`
+
+新增一種客服單開單按鈕。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `name` | 必填・文字 | 同一伺服器不可重名，最多 80 字元。 |
+| `mode` | 必填・選項 | 直接開單或表單開單。 |
+| `style` | 選填・選項 | 按鈕顏色，省略預設為灰色 secondary。 |
+
+**固定選項**
+
+- `mode` 選「直接開單」`direct`：不經表單建立頻道。
+- `mode` 選「表單開單」`form`：需先設定欄位，由成員填寫後開單。
+- `style`：藍色 `primary`、灰色 `secondary`、綠色 `success`、紅色 `danger`。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用；名稱不可重複，且未達按鈕上限。</dd></div>
+</dl>
+
+**操作方式**：在 `name` 填「一般問題」，`mode` 選「直接開單」；省略 `style` 時使用灰色。
+
+同一伺服器最多 25 個按鈕。表單模式需先新增欄位；客服角色另以 `/ticket-v2 role-add` 設定。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-button-style">
+
+### `/ticket-v2 button-style`
+
+修改既有開單按鈕的顏色。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `name` | 必填・文字 | 客服按鈕名稱，修改或刪除時需對應已存在的按鈕。 |
+| `style` | 必填・選項 | 新的按鈕顏色。 |
+
+**固定選項**
+
+- `style`：藍色 `primary`、灰色 `secondary`、綠色 `success`、紅色 `danger`。
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>指定按鈕須已存在於同一伺服器。</dd></div>
+</dl>
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-button-remove">
+
+### `/ticket-v2 button-remove`
+
+移除一個開單按鈕及其設定。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `name` | 必填・文字 | 客服按鈕名稱，修改或刪除時需對應已存在的按鈕。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>指定按鈕須已存在於同一伺服器。</dd></div>
+</dl>
+
+不是關閉既有客服單的操作；舊按鈕若仍可見，點擊可能顯示已失效。
+
+會移除該按鈕的表單及客服角色設定，但不會撤銷既有案件的頻道權限。請先確認未結案件的處理方式與存取權限，再刪除按鈕。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-message">
+
+### `/ticket-v2 message`
+
+設定客服單建立後顯示的提醒。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `message` | 必填・文字 | 顯示在新客服單關閉按鈕上方的提醒。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>在伺服器內使用；提醒套用於之後建立的客服單。</dd></div>
+</dl>
+
+與 panel 的 content 不同：panel 是開單前的面板內文，此處是開單後的提醒。
+
+</section>
+
+## 表單與客服角色
+
+<section class="command-block" aria-labelledby="ticket-v2-field-add">
+
+### `/ticket-v2 field-add`
+
+替表單模式按鈕新增欄位。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `button_name` | 必填・文字 | 已存在的客服按鈕名稱，可使用自動完成選擇。 |
+| `field_name` | 必填・文字 | 表單欄位名稱；新增最多 45 字元。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>按鈕需存在且為 form 模式，每顆按鈕最多五個欄位。</dd></div>
+</dl>
+
+**操作方式**：先選取已建立的表單按鈕 `button_name`，再在 `field_name` 填「問題描述」。
+
+目前表單欄位皆必填、單欄最多 500 字元；此指令沒有設定欄位型態或可選填的參數。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-field-remove">
+
+### `/ticket-v2 field-remove`
+
+移除指定按鈕的一個表單欄位。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `button_name` | 必填・文字 | 已存在的客服按鈕名稱，可使用自動完成選擇。 |
+| `field_name` | 必填・文字 | 要移除的既有欄位名稱。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>指定按鈕及欄位須存在於同一伺服器。</dd></div>
+</dl>
+
+表單按鈕若沒有欄位，成員開單時會收到表單尚未設定提示。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-role-add">
+
+### `/ticket-v2 role-add`
+
+新增此類客服單的客服角色。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `button_name` | 必填・文字 | 已存在的客服按鈕名稱，可使用自動完成選擇。 |
+| `role` | 必填・身分組 | 要新增或移除的客服角色。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>按鈕與角色需存在；Mochi 需能調整既有客服頻道權限。</dd></div>
+</dl>
+
+會嘗試同步目前開啟中的案件，回覆會顯示成功、略過與失敗數量。
+
+**安全提醒**：客服角色會取得案件頻道的查看、傳送訊息與讀取既有訊息等權限。請只選擇實際負責客服的角色，避免選擇 `@everyone` 或成員範圍過廣的角色，以免擴大案件內容的可見範圍。
+
+此指令沒有自動排除這類角色。角色設定會先保存，再嘗試同步既有案件；同步失敗不代表設定未生效，請核對回覆與實際頻道權限。
+
+</section>
+
+<section class="command-block" aria-labelledby="ticket-v2-role-remove">
+
+### `/ticket-v2 role-remove`
+
+移除此類客服單設定的客服角色。
+
+| 參數 | 需求 | 說明 |
+| --- | --- | --- |
+| `button_name` | 必填・文字 | 已存在的客服按鈕名稱，可使用自動完成選擇。 |
+| `role` | 必填・身分組 | 要新增或移除的客服角色。 |
+
+<dl class="command-access">
+  <div><dt>使用權限</dt><dd><a href="/docs/commands#管理者權限">管理者</a>。</dd></div>
+  <div><dt>操作條件</dt><dd>該按鈕已有此角色設定；Mochi 需能調整既有客服頻道權限。</dd></div>
+</dl>
+
+會嘗試同步既有案件，但成員若透過其他角色、覆寫或 Administrator 仍有權限，可能繼續存取。
+
+</section>
+
+</div>
