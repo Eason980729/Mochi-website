@@ -1,159 +1,161 @@
-# Discord Bot 官方網站
+# Mochi 官方網站
 
-獨立的 Astro、Starlight、TypeScript 與 Tailwind CSS 靜態網站專案。
-預定網域為 `https://bot.eason729.com`，預設語言為繁體中文（`zh-TW`）。
+Mochi 的獨立官方網站，使用 Astro、Starlight、TypeScript 與 Tailwind CSS，採純靜態產生（SSG）架構。預設語言為繁體中文（`zh-TW`），支援手機、桌面及淺色／深色模式。
 
-目前已完成第一版 UI Prototype，包含產品首頁、支援頁、404、功能概覽及少量公開指令範例。
-公開內容限於三項通用功能與四項選用功能；客製化功能僅說明可用範圍，不公開具體功能或指令。
-機器人名稱、Logo、邀請連結、支援管道與正式法律政策尚待確認。
-本專案不讀取或依賴其他 Bot 專案，沒有 Bot API、Dashboard、後端服務或資料庫。
+網站包含產品首頁、功能介紹、支援中心與 Docs 使用手冊，另提供自訂 404 頁面。網站不依賴 Discord Bot 專案的程式碼或執行設定，沒有 Bot API、Dashboard、後端服務或資料庫。
 
-## 本機開發
+Mochi 目前採人工邀請：首頁邀請按鈕開啟說明 Dialog，再引導至 `/support`；開發者的公開 Discord 聯絡入口只放在支援頁。不公開 Bot 邀請網址，也不提供申請表單。
 
-建議使用 Node.js 24 LTS；Astro 所需最低版本記錄於 `package.json`。
-若有使用 nvm，可先執行 `nvm install` 與 `nvm use`，套用 `.nvmrc`。
+## 本機開發與驗證
+
+使用 Node.js 24；`.nvmrc` 設為 `24`，套件的最低版本條件記錄於 `package.json`。若使用 nvm，可先執行 `nvm use` 切換版本。
 
 ```bash
 npm ci
 npm run dev
 ```
 
-開發網址以終端機輸出為準，預設為 `http://localhost:4321`。
+`npm ci` 依 `package-lock.json` 安裝相依套件。開發網址以終端機輸出為準，預設為 `http://localhost:4321`。
+
+| 指令 | 用途 |
+| --- | --- |
+| `npm run dev` | 啟動本機 Astro 開發伺服器，可讀取完整 Docs。 |
+| `npm run check` | 檢查 Astro、TypeScript 與內容型別。 |
+| `npm run build` | 產生正式靜態輸出至 `dist/`，套用 Docs 發布控制並建立搜尋索引與 Sitemap。 |
+| `npm run preview` | 本機預覽已建置的 `dist/`，不會重新建置。 |
+| `npm run check:theme` | 驗證實際主題腳本、狀態同步、動畫退化行為及建置後的跨版型輸出；需先執行 build。 |
+| `npm run check:publication` | 在暫存副本中驗證 Docs 發布、草稿隔離、搜尋、Sitemap、連結與 Dev／Build 並行。 |
+| `npm run astro -- --help` | 查看專案安裝的 Astro CLI 說明。 |
+
+提交前建議依序執行：
 
 ```bash
-npm run check    # Astro、TypeScript 與內容型別檢查
-npm run build    # 產生 dist/ 靜態網站
-npm run preview  # 預覽建置結果
+npm run check
+npm run build
+npm run check:theme
+npm run check:publication
+git diff --check
 ```
 
-Astro 7 的預覽若以背景程序執行，可使用 `npm run preview -- status` 查看狀態，
-使用 `npm run preview -- stop` 停止。網址以終端機實際輸出為準。
+`check:theme` 使用隔離模擬驗證主題腳本，不會改寫使用者的瀏覽器偏好。`check:publication` 需要本機 loopback 連接埠與已安裝的相依套件；它會在系統暫存目錄複製網站及套件、加入唯一測試標記並執行開發與建置流程，結束時清除副本，不修改真實文件或發布名單，也不重新安裝套件。
 
-`package-lock.json` 鎖定此次安裝的相依套件。後續安裝請優先使用 `npm ci`。
+自動檢查之外，仍需以瀏覽器確認響應式版面、鍵盤與焦點、邀請 Dialog、主題動畫，以及實際裝置的 Reduced Motion 行為。
 
-## 新增檔案與結構
+## 主要專案結構
 
 ```text
 .
+├── astro.config.mjs             # 靜態輸出、網域、Starlight 導覽與整合設定
+├── package.json / package-lock.json
+├── .nvmrc / tsconfig.json
 ├── .gitignore
-├── .nvmrc
-├── README.md
-├── astro.config.mjs           # 靜態輸出、網域、繁中、導覽與 Tailwind Vite 整合
-├── package.json
-├── package-lock.json
-├── tsconfig.json              # Astro strict TypeScript 設定
-├── wrangler.jsonc             # 未來 Workers Static Assets 的設定
-├── public/favicon.svg         # 通用佔位圖示，待品牌素材確認後替換
+├── wrangler.jsonc               # 既有 Workers Static Assets 預留設定，未執行部署
+├── public/                      # 直接複製至正式輸出的靜態資產；正式頭像為 mochi-avatar.png
+├── scripts/                     # check-theme.mjs、check-docs-publication.mjs
 └── src/
-    ├── content.config.ts      # Starlight content collection
-    ├── content/i18n/zh-TW.json # 補充繁中介面字串
-    ├── components/
-    │   ├── Brand.astro        # 暫用識別與名稱標示
-    │   ├── Icon.astro         # 本機 SVG 線條圖示
-    │   ├── InviteButton.astro # 邀請按鈕與開發中提示視窗
-    │   ├── SiteHeader.astro   # 官網導覽
-    │   ├── SiteFooter.astro   # 官網頁尾
-    │   └── ThemeSelect.astro  # 深色／淺色／系統選擇
-    ├── data/
-    │   ├── site.ts            # 品牌佔位、邀請網址與頁尾連結
-    │   └── features.ts        # 七項公開功能的型別與展示資料
-    ├── content/docs/docs/
-    │   ├── index.mdx          # /docs
-    │   ├── commands.md        # /docs/commands
-    │   ├── features.md        # /docs/features
-    │   ├── terms.md           # /docs/terms
-    │   └── privacy.md         # /docs/privacy
-    ├── layouts/
-    │   └── SiteLayout.astro   # 首頁、支援頁與 404 的獨立官網版型
-    ├── pages/
-    │   ├── 404.astro          # 自訂繁中 404 頁面
-    │   ├── index.astro        # /
-    │   └── support.astro      # /support
-    ├── scripts/
-    │   ├── theme.ts           # 官網主題偏好與系統主題事件
-    │   ├── theme-bootstrap.ts # 兩種版型繪製前與返回頁面時的主題同步
-    │   ├── navigation.ts      # 手機導覽展開、收合與焦點
-    │   └── invite-dialog.ts   # 提示視窗關閉、捲動鎖定與焦點還原
-    └── styles/
-        ├── tokens.css        # 共用色彩與字體變數
-        ├── site.css          # 官網 Tailwind v4、版面與響應式樣式
-        └── global.css        # Starlight Tailwind 相容層與品牌變數
+    ├── pages/                   # 首頁、features、support 與自訂 404
+    ├── layouts/                 # 官網 SiteLayout
+    ├── components/              # 品牌、導航、Footer、邀請、聯絡及共用主題元件
+    ├── data/                    # 品牌／聯絡設定、功能資料及 Docs 發布名單
+    ├── scripts/                 # 主題初始化與切換、Hero 動畫、手機導航及邀請 Dialog
+    ├── styles/                  # 設計 tokens、官網、Docs、指令參考與主題動畫樣式
+    ├── content.config.ts        # Starlight 內容集合與發布 Loader 註冊
+    ├── content/
+    │   ├── docs/docs/           # /docs 導覽頁、功能指南、指令參考及法律草稿
+    │   │   ├── guides/
+    │   │   └── commands/
+    │   └── i18n/                # 繁體中文補充介面字串
+    ├── loaders/                 # publication-docs.ts：依開發／正式模式載入文件
+    ├── integrations/            # 發布感知的 Sitemap 與內容模組匯入隔離
+    └── middleware.ts            # SSG 時標記未公開頁面，排除整頁 Pagefind 索引
 ```
 
-`node_modules/`、`.astro/` 與 `dist/` 是安裝或建置產物，已加入忽略清單。
-Astro 會產生自訂 `404.html`，Starlight 會建立供靜態文件搜尋使用的 Pagefind 索引。
+`src/data/site.ts` 集中管理 Mochi 品牌名稱、正式頭像、開發者聯絡 URL 與 Footer 連結。Header、Footer、Favicon 及 Docs 使用相同品牌來源。
 
-## 文件與介面
+`src/data/features.ts` 集中管理功能展示資料。首頁的合併遊戲工具卡片與功能介紹頁的實際通用／選用分類分開處理；每日密碼屬通用功能，特勤處製造屬選用功能，兩者同屬《三角洲行動》工具。
 
-Starlight 依內容路徑產生路由，因此文件刻意放在 `src/content/docs/docs/`，
-讓公開網址從 `/docs` 開始，不必把整站的 Astro `base` 設為 `/docs`。
+## 頁面與文件分工
 
-新增文件時，在該目錄建立 `.md` 或 `.mdx`，並提供 `title` 與 `description` frontmatter。
-需要顯示於側邊欄時，同步更新 `astro.config.mjs` 的 `sidebar`。
+| 路由 | 用途 |
+| --- | --- |
+| `/` | Mochi 的產品特色、功能亮點與邀請入口。 |
+| `/features` | 完整功能概覽、通用／選用分類、授權說明及客製化需求入口。 |
+| `/support` | 常見問題、文件入口與開發者聯絡方式。 |
+| `/docs` | 使用手冊首頁與文件導覽。 |
+| `/docs/features` | 功能總覽，連接各功能指南與指令參考。 |
+| `/docs/commands` | 指令導覽、參數填寫與權限說明。 |
+| `/docs/guides/*` | 歡迎訊息、反應身分組、AI、音樂、客服單、每日密碼及特勤處製造的操作指南。 |
+| `/docs/commands/*` | 對應功能的指令名稱、參數、選項、權限及限制。 |
+| `/docs/terms`、`/docs/privacy` | 保留原網址；正式建置目前僅顯示準備中提示。 |
 
-官網頁面使用獨立 `SiteLayout`；首頁依序為左對齊 Hero、通用功能列表、選用功能區塊、
-可用範圍、文件入口及頁尾。支援與 404 共用導航、字體及配色。
+Docs 原始檔放在 `src/content/docs/docs/`，使 Starlight 產生 `/docs` 路由，不需將整站 `base` 設為 `/docs`。保留原生側邊欄、頁面目錄與 Pagefind 搜尋；官網仍使用獨立 Header，兩者共用品牌、Footer、字體與主題設定。
 
-Docs 保留原生 Starlight 側邊欄、文章目錄、Pagefind 搜尋及主題切換，沒有覆寫內部元件。
-`global.css` 調整品牌變數、提示框配色及內容寬度；Docs 的 Tailwind 相容層與官網的 CSS 分開載入。
-品牌名稱與 Logo 來源共用 `src/data/site.ts`，Docs 透過官方 Logo 設定顯示同一圖示。
+修改既有文件標題、路由或章節時，須保留有效的舊錨點與交叉連結，包括 `/docs/features#三角洲生產推薦`。新增文件時提供 `title`、`description` frontmatter，並視需要更新 `astro.config.mjs` 的側邊欄。
 
-兩種版型共用 `tokens.css` 與 Starlight 的 `starlight-theme` 偏好值。
-官網在頁面繪製前套用主題，支援跟隨系統、跨分頁同步，以及儲存空間遭封鎖時的當頁切換。
-主題選擇會使用瀏覽器 localStorage；目前沒有追蹤程式、外部字體、聯絡表單或 Bot 連線。
+## Docs 逐頁發布
 
-官網在 1000px、780px、520px 設有版面調整。780px 以下 Header 使用單排品牌、主題圖示及漢堡按鈕，
-選單在正常文件流中展開，支援 Esc 收合及鍵盤焦點。主題圖示保留原有原生選擇器的三種選項。
-提供跳到主要內容、鍵盤焦點樣式及觸控操作尺寸。
-只使用輕量 hover transition 與錨點平滑捲動，`prefers-reduced-motion` 下停用。
+發布狀態集中於 `src/data/docs-publication.ts`，鍵值使用 Content Collection ID，不含開頭斜線或副檔名。例如：
 
-邀請網址集中於 `src/data/site.ts`，未確認前保持 `null`，按鈕開啟原生 Dialog 的開發中提示。
-視窗支援確認、關閉圖示、遮罩及 Esc 關閉，關閉後還原觸發按鈕焦點與頁面捲動位置。
-正式開放時設定已確認的 `inviteUrl`，元件會改為邀請連結；不要填入假網址。
-正式品牌名稱只需更新 `site.ts`，Logo 更新其指向的本機素材；兩種 Header 保留各自結構。
-功能展示集中於 `src/data/features.ts`；若修改文件標題，須同步核對 `docsAnchor` 與實際產生的錨點。
-法律文件以可見的草稿告示標記，沒有設定會使頁面退出正式建置的 `draft: true`。
+| 原始檔（相對於 `src/content/docs/`） | 設定 ID |
+| --- | --- |
+| `docs/index.mdx` | `docs` |
+| `docs/features.md` | `docs/features` |
+| `docs/guides/music.md` | `docs/guides/music` |
 
-## 驗證範圍
+| 狀態 | 開發模式：`npm run dev` | 正式建置及其預覽 |
+| --- | --- | --- |
+| `published` | 完整內容 | 公開完整內容，可進入 Pagefind 搜尋與 Sitemap。 |
+| `review` | 完整內容 | 顯示「內容審核中」提示頁。 |
+| `development` | 完整內容 | 顯示「文件準備中」提示頁。 |
+| 未明確設定 | 完整內容 | 預設視為 `review`，不會自動公開。 |
 
-- 執行 `npm run check` 及 `npm run build`。
-- 檢查八份靜態 HTML 的路由、連結、文件錨點與本機資產。
-- 檢查 Docs 保有原生側邊欄、文章目錄、搜尋及三種主題選項。
-- 官網主題邏輯已以隔離模擬驗證系統變更、儲存偏好、跨分頁及儲存受限情境。
-- 主要文字、輔助文字、連結與主要按鈕的指定配色組合已通過 4.5:1 對比檢查。
-- 本機靜態預覽曾確認首頁、文件與 Pagefind 資產回應 HTTP 200。
+目前已核准的功能文件與導覽頁為 `published`；服務條款與隱私權政策仍為 `development`，不是已生效的正式政策。完整發布名單以集中設定為準。
 
-目前環境沒有可用的瀏覽器，尚未完成實際畫面、觸控、鍵盤導覽與搜尋互動驗收。
-後續請在桌面及手機尺寸下檢查三種主題，並於建置預覽中確認 Pagefind 搜尋結果。
+正式建置的 Loader 會在未發布文件註冊可渲染的 Markdown／MDX 模組及匯入資產前，以固定提示內容取代原文。只保留標題與必要導覽，不輸出原始正文、程式碼範例、自訂 metadata 或 MDX 匯入內容。未公開頁面保留網址與側邊欄，設定 `noindex`、排除整頁 Pagefind 索引，並從 Sitemap 移除。
 
-## 靜態輸出與未來 Cloudflare 設定
+Tailwind 同時排除 Docs 原始檔與建置快取的自動掃描，避免未公開文件中的任意文字 utility 進入公開 CSS。文件使用 Starlight 與共用 Docs 樣式，不依賴只存在於 Markdown／MDX 的 Tailwind utility 自動產生樣式。
 
-`astro.config.mjs` 明確使用 `output: 'static'`，沒有 SSR adapter。
-所有頁面在建置時產生，部署時只需要 `dist/`。
+維護發布名單時：
 
-`wrangler.jsonc` 僅預先記錄 Workers Static Assets 所需的目錄與路由設定：
+1. 先核對內容與權限，經人工核准後，才將對應 ID 設為 `published`。
+2. 撤回公開時改回 `review`；開發中的頁面使用 `development`。
+3. 重新建置並執行發布驗證，確認搜尋、Sitemap、正文、資產與連結符合設定。
 
-- `assets.directory` 指向 `./dist`。
-- `html_handling: 'drop-trailing-slash'` 與 Astro `trailingSlash: 'never'` 一致。
-- `not_found_handling: '404-page'` 使用 Astro 建置出的 `404.html`。
-- 沒有 Worker 程式入口、資料庫或其他服務綁定。
+不要用 `draft: true` 取代這套機制，因為 Starlight 會移除其網址；`draft: true` 與 `published` 同時設定會使建置失敗。
 
-尚未安裝 Wrangler、登入 Cloudflare、建立 Worker、設定自訂網域或執行部署。
-`site` 設定僅用來產生正確的 canonical 網址，不會自動綁定網域。
-已建立本機 Git 版本管理，`main` 保存初始版本，本輪 UI 優化位於 `ui/first-polish`。
-未連接 GitHub、設定遠端、推送或將 UI 分支合併至 `main`。
+開發伺服器可閱讀全部原文，只供維護使用，不應對外作為正式網站。內容模組匯入會依 Dev／Build 程序隔離，避免並行時共用模組索引衝突；升級 Astro 或 Starlight 時，應重新執行發布驗證，不能只以 build 成功判斷相容。
 
-## 後續開發
+## 主題系統與首頁動畫
 
-1. 確認機器人名稱、介紹、邀請網址與支援聯絡方式。
-2. 確認各伺服器正式啟用的功能，逐步補齊公開指令、權限與操作文件。
-3. 依實際營運與資料處理方式提供正式條款、隱私權政策與生效資訊。
-4. 確認品牌素材後再擴充視覺設計，並檢查行動版與各主題的可讀性。
-5. 準備正式上線時，再安裝相容的 Wrangler、確認名稱與網域設定，另行執行部署。
+官網與 Starlight Docs 使用同一組設計 tokens、繪製前初始化腳本與 `starlight-theme` localStorage 儲存鍵。單一按鈕依 `system → light → dark → system` 循環，以螢幕、太陽、月亮圖示及可存取名稱呈現狀態。無有效設定時預設 `system`，持續跟隨系統外觀變更，並支援跨分頁同步及歷史頁面還原。
 
-## 官方參考
+手動切換且實際配色改變時，使用 View Transitions API，從按鈕中心播放約 400ms 的圓形揭露。API 不支援、Reduced Motion、首次載入、系統外觀自動變化及歷史還原時直接套用主題。儲存不可用時，仍可在目前頁面切換。
 
-- [Starlight 手動設定與子路徑](https://starlight.astro.build/manual-setup/)
-- [Starlight Tailwind CSS 設定](https://starlight.astro.build/guides/css-and-tailwind/)
-- [Starlight 自訂頁面](https://starlight.astro.build/guides/pages/)
-- [Cloudflare Workers SSG 與 404](https://developers.cloudflare.com/workers/static-assets/routing/static-site-generation/)
+首頁 Hero 保留標題的隨機逐字輸入、標點停頓與游標結束效果，接續說明文字與 CTA 進場。桌面示意卡片與左側並行；手機則等待左側動畫完成且卡片進入視野後才播放。底部分類導覽屬於 Hero，後方 01／02／03 功能區塊全部靜態顯示。
+
+Hero 以漸進增強方式處理：無 JavaScript 或使用 Reduced Motion 時直接顯示完整內容；動畫不改變預留版面空間，離頁時清理相關計時器及監聽。修改時須保留原有焦點、按鈕與邀請 Dialog 行為。
+
+## 預計部署方式：Cloudflare Pages（尚未部署）
+
+以下是預計使用的建置設定，不代表已建立 Pages 專案、連接 Git Repository、設定網域或正式上線。
+
+| 設定 | 預計值 |
+| --- | --- |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Node.js | `24` |
+| 正式網域 | `bot.eason729.com` |
+
+`astro.config.mjs` 已設定 `site: 'https://bot.eason729.com'`、`output: 'static'` 與 `trailingSlash: 'never'`，沒有 SSR adapter。`site` 用於產生 canonical 與 Sitemap 等網址，不會自動完成部署或網域綁定。
+
+專案另保留既有 `wrangler.jsonc`，內容是 Workers Static Assets 的預留設定，並非上述 Pages 專案的已套用設定。本次僅記錄預計部署方式，沒有修改部署設定或執行部署；正式發布前應另行確認託管平台的路由、404、Node.js 與網域設定。
+
+## 安全與版本管理
+
+- 不提交 Token、密鑰、密碼、環境憑證或私人資料；README 與公開程式碼都不應包含實際憑證。
+- `node_modules/`、`dist/`、`.astro/`、快取及本機部署產物不納入 Git。提交來源與 lockfile，讓其他環境可重複安裝及建置。
+- `.gitignore` 的 `/.aws` 同時忽略專案根目錄的 `.aws` 檔案與目錄。不要強制加入；檢查忽略規則不需要開啟其內容。
+- `.env`、`.env.*` 與常見憑證格式已忽略；若提供 `.env.example`，只能包含安全的設定名稱與示意值。
+- Docs 發布控制只保護正式網站輸出，不會隱藏公開 Git Repository 中的原始文件，包括未發布的法律草稿。調整 Repository 可見性前，應另行審查原始檔。
+- `public/` 內容會直接公開，不可存放未公開附件或敏感資料；文件專用匯入資產放在 `src/`，並由適當的已公開文件引用。
+- 準備提交時使用明確檔案範圍，檢查暫存差異、忽略規則與驗證結果；Commit、Push、合併及部署需依當次授權執行。

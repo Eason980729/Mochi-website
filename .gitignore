@@ -6,7 +6,7 @@ dist/
 .vite/
 .agents/
 .codex/
-.aws/
+/.aws
 *.tsbuildinfo
 .env
 .env.*
