@@ -7,7 +7,7 @@ import { publicationSitemap } from './src/integrations/publication-sitemap.ts';
 import { publicationModuleImports } from './src/integrations/publication-module-imports.ts';
 
 export default defineConfig({
-  site: 'https://bot.eason729.com',
+  site: site.url,
   output: 'static',
   trailingSlash: 'never',
   integrations: [

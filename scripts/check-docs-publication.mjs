@@ -9,6 +9,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gunzipSync } from 'node:zlib';
 import { getPublicationStatus } from '../src/data/docs-publication.ts';
+import { site } from '../src/data/site.ts';
 
 // Integration fixtures live only in a disposable copy. Real documents/statuses are never edited.
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -148,7 +149,7 @@ async function assertApprovedDocuments(origin) {
     const status = getPublicationStatus(route);
     counts[status]++;
     const html = await readFile(join(sandbox, 'dist', route, 'index.html'), 'utf8');
-    const fragment = search.find((entry) => new URL(entry.url, 'https://bot.eason729.com').pathname.replace(/\/$/, '') === `/${route}`);
+    const fragment = search.find((entry) => new URL(entry.url, site.url).pathname.replace(/\/$/, '') === `/${route}`);
     assert.ok(html.includes('aria-label="文件導覽"'), `Missing sidebar: ${route}`);
     if (status === 'published') {
       assert.ok(html.includes(canary), `Approved body absent: ${route}`);
@@ -169,7 +170,7 @@ async function assertApprovedDocuments(origin) {
     const links = [...homepage.matchAll(/\]\((\/docs[^)\s]*)\)/g)].map(([, href]) => href);
     assert.ok(links.includes('/docs/features') && links.includes('/docs/commands'), 'Docs homepage is missing its starting points.');
     for (const href of links) {
-      const id = new URL(href, 'https://bot.eason729.com').pathname;
+      const id = new URL(href, site.url).pathname;
       assert.equal(getPublicationStatus(id), 'published', `Docs homepage links to an unpublished document: ${href}`);
     }
     console.log('PASS Docs homepage: primary document links all point to approved pages.');
@@ -193,7 +194,7 @@ async function assertNavigation() {
   const paths = await files(output);
   const html = new Map(await Promise.all(paths.filter((path) => path.endsWith('.html')).map(async (path) => [path, await readFile(path, 'utf8')])));
   for (const [path, content] of html) {
-    const base = new URL(path.slice(output.length), 'https://bot.eason729.com');
+    const base = new URL(path.slice(output.length), site.url);
     for (const [, href] of content.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)) {
       const url = new URL(href.replaceAll('&amp;', '&'), base);
       if (url.origin !== base.origin) continue;

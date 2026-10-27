@@ -1,12 +1,16 @@
 ---
 import Brand from './Brand.astro';
+import { Icon } from '@astrojs/starlight/components';
 import { footerLinks, site } from '../data/site';
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer"><div class="footer-inner">
   <div class="footer-main">
     <div><Brand /><p class="footer-description">社群裡的日常，從這裡開始。</p></div>
-    <nav aria-label="頁尾導覽">{footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
+    <nav aria-label="頁尾導覽">
+      {footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+      <a class="footer-github" href={site.repositoryUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub：Mochi Website 原始碼（在新分頁開啟）"><Icon name="github" size="16px" />GitHub</a>
+    </nav>
   </div>
   <div class="footer-meta">
     <span>© {year} {site.name}</span>
@@ -19,9 +23,10 @@ const year = new Date().getFullYear();
   .footer-inner { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
   .footer-main { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 35px; padding-bottom: 35px; }
   .footer-description { margin: 12px 0 0; color: var(--site-muted); font-size: .75rem; }
-  nav { display: grid; grid-template-columns: repeat(4, max-content); align-content: start; gap: 8px 26px; padding-top: 7px; font-size: .75rem; }
-  nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--site-text); font-weight: 400; text-decoration: none; white-space: nowrap; }
+  nav { display: grid; grid-template-columns: repeat(4, max-content); align-content: start; gap: 14px 26px; padding-top: 7px; font-size: .75rem; }
+  nav a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--site-text); font-weight: 400; text-decoration: none; white-space: nowrap; }
   nav a:hover { color: var(--site-link); text-decoration: underline; text-underline-offset: .25em; }
+  .footer-github { grid-column: 1 / -1; justify-self: end; }
   .footer-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 20px 24px; border-top: 1px solid var(--site-border); color: var(--site-muted); font-size: .67rem; }
   .footer-meta > span:first-child { flex-shrink: 0; }
   .footer-meta > span:last-child { min-width: 0; overflow-wrap: anywhere; }
@@ -29,6 +34,7 @@ const year = new Date().getFullYear();
     .footer-inner { width: calc(100% - 40px); }
     .footer-main { flex-direction: column; gap: 20px; }
     nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 24px; max-width: 24rem; }
+    .footer-github { justify-self: start; margin-top: 0; min-height: 24px; }
     .footer-meta { flex-direction: column; align-items: flex-start; }
   }
 </style>
