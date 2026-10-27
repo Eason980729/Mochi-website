@@ -2,6 +2,10 @@
 
 Mochi 的獨立官方網站，使用 Astro、Starlight、TypeScript 與 Tailwind CSS，採純靜態產生（SSG）架構。預設語言為繁體中文（`zh-TW`），支援手機、桌面及淺色／深色模式。
 
+網站網址：[https://mochi.eason729.com/](https://mochi.eason729.com/)。本 Repository 不包含 Mochi Discord Bot 主程式。
+
+原始碼：[Eason980729/Mochi-website](https://github.com/Eason980729/Mochi-website)。
+
 網站包含產品首頁、功能介紹、支援中心與 Docs 使用手冊，另提供自訂 404 頁面。網站不依賴 Discord Bot 專案的程式碼或執行設定，沒有 Bot API、Dashboard、後端服務或資料庫。
 
 Mochi 目前採人工邀請：首頁邀請按鈕開啟說明 Dialog，再引導至 `/support`；開發者的公開 Discord 聯絡入口只放在支援頁。不公開 Bot 邀請網址，也不提供申請表單。
@@ -49,7 +53,7 @@ git diff --check
 ├── package.json / package-lock.json
 ├── .nvmrc / tsconfig.json
 ├── .gitignore
-├── wrangler.jsonc               # 既有 Workers Static Assets 預留設定，未執行部署
+├── wrangler.jsonc               # Workers Static Assets 預留設定，與 Pages 設定不同
 ├── public/                      # 直接複製至正式輸出的靜態資產；正式頭像為 mochi-avatar.png
 ├── scripts/                     # check-theme.mjs、check-docs-publication.mjs
 └── src/
@@ -70,7 +74,7 @@ git diff --check
     └── middleware.ts            # SSG 時標記未公開頁面，排除整頁 Pagefind 索引
 ```
 
-`src/data/site.ts` 集中管理 Mochi 品牌名稱、正式頭像、開發者聯絡 URL 與 Footer 連結。Header、Footer、Favicon 及 Docs 使用相同品牌來源。
+`src/data/site.ts` 集中管理 Mochi 品牌名稱、網站網址、正式頭像、Repository 與開發者聯絡 URL，以及 Footer 連結。Header、Footer、Favicon 及 Docs 使用相同品牌來源；Astro 的 `site` 與發布驗證腳本共用網站網址。
 
 `src/data/features.ts` 集中管理功能展示資料。首頁的合併遊戲工具卡片與功能介紹頁的實際通用／選用分類分開處理；每日密碼屬通用功能，特勤處製造屬選用功能，兩者同屬《三角洲行動》工具。
 
@@ -135,20 +139,28 @@ Tailwind 同時排除 Docs 原始檔與建置快取的自動掃描，避免未�
 
 Hero 以漸進增強方式處理：無 JavaScript 或使用 Reduced Motion 時直接顯示完整內容；動畫不改變預留版面空間，離頁時清理相關計時器及監聽。修改時須保留原有焦點、按鈕與邀請 Dialog 行為。
 
-## 預計部署方式：Cloudflare Pages（尚未部署）
+## Cloudflare Pages 部署
 
-以下是預計使用的建置設定，不代表已建立 Pages 專案、連接 Git Repository、設定網域或正式上線。
+以下是此專案的 Pages 建置設定；本 Repository 的設定檔不代表已完成平台設定、網域綁定或部署。
 
 | 設定 | 預計值 |
 | --- | --- |
 | Build command | `npm run build` |
 | Output directory | `dist` |
 | Node.js | `24` |
-| 正式網域 | `bot.eason729.com` |
+| 正式網域 | `mochi.eason729.com` |
 
-`astro.config.mjs` 已設定 `site: 'https://bot.eason729.com'`、`output: 'static'` 與 `trailingSlash: 'never'`，沒有 SSR adapter。`site` 用於產生 canonical 與 Sitemap 等網址，不會自動完成部署或網域綁定。
+`astro.config.mjs` 從 `src/data/site.ts` 取得 `https://mochi.eason729.com`，搭配 `output: 'static'` 與 `trailingSlash: 'never'`，沒有 SSR adapter。`site` 用於產生 Canonical、Open Graph 與 Sitemap 等網址，不會自動完成部署或網域綁定。
 
-專案另保留既有 `wrangler.jsonc`，內容是 Workers Static Assets 的預留設定，並非上述 Pages 專案的已套用設定。本次僅記錄預計部署方式，沒有修改部署設定或執行部署；正式發布前應另行確認託管平台的路由、404、Node.js 與網域設定。
+在 Cloudflare Pages 設定建置指令、輸出目錄與 Node.js 版本後，需另行設定自訂網域 `mochi.eason729.com`，並為舊網址設定 301 Redirect。Production 與 Preview 的環境變數及權限應分開檢查，Preview 不應取得不必要的正式憑證。本站靜態建置程式沒有要求 Bot Token 或資料庫憑證。
+
+專案另保留既有 `wrangler.jsonc`，內容是 Workers Static Assets 的預留設定，並非上述 Pages 專案的已套用設定。部署前應另外確認託管平台的路由、404、Node.js 與網域設定。
+
+## 授權與品牌
+
+網站原始碼採用 [MIT License](LICENSE)，著作權標示為 Copyright (c) 2026 Eason980729。
+
+Mochi 名稱、Logo、頭像及相關品牌識別保留權利，不包含在 MIT 授權內；正式頭像由維護者自行設計，詳見 [BRAND.md](BRAND.md)。目前全部 13 個通用 SVG 圖示統一取自固定版本的 Lucide 官方原始碼，Footer 的 GitHub 圖示由 Starlight 提供。第三方套件及素材依各自授權處理，來源版本與完整聲明見 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## 安全與版本管理
 
@@ -158,4 +170,4 @@ Hero 以漸進增強方式處理：無 JavaScript 或使用 Reduced Motion 時�
 - `.env`、`.env.*` 與常見憑證格式已忽略；若提供 `.env.example`，只能包含安全的設定名稱與示意值。
 - Docs 發布控制只保護正式網站輸出，不會隱藏公開 Git Repository 中的原始文件，包括未發布的法律草稿。調整 Repository 可見性前，應另行審查原始檔。
 - `public/` 內容會直接公開，不可存放未公開附件或敏感資料；文件專用匯入資產放在 `src/`，並由適當的已公開文件引用。
-- 準備提交時使用明確檔案範圍，檢查暫存差異、忽略規則與驗證結果；Commit、Push、合併及部署需依當次授權執行。
+- 提交前以明確的檔案範圍暫存，檢查差異、忽略規則與驗證結果。
